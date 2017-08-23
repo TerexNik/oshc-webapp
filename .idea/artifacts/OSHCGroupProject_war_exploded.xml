@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="OSHCGroupProject:war exploded">
-    <output-path>$PROJECT_DIR$/target/oshcwebapp-0.1</output-path>
+    <output-path>$PROJECT_DIR$/target/oshcwebapp-0.1.0</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -29,11 +29,11 @@
           <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.6.6" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.6" />
+          <element id="library" level="project" name="Maven: com.oracle:ojdbc5:11.2.0.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/oshcwebapp-0.1/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/oshcwebapp-0.1.0/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="OSHCGroupProject/web/Web" />
     </root>
