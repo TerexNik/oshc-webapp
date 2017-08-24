@@ -12,5 +12,6 @@
         <property name="show_sql">true</property>
 
         <mapping class="ru.OSHC.entity.Employee"/>
+        <mapping class="ru.OSHC.entity.Certificate"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,7 +1,8 @@
 package ru.OSHC.entity;
 
-import javax.persistence.*
+import javax.persistence.*;
 import java.util.Arrays;
+import java.util.Date;
 
 @Entity
 @Table(name = "certificate")
@@ -11,7 +12,7 @@ public class Certificate {
     private long id;
 
     @Column(name = "date")
-    private String name;
+    private Date date;
 
     @Column(name = "company")
     private String company;
