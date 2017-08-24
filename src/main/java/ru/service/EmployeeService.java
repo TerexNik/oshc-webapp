@@ -5,7 +5,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import ru.dao.EmployeeDAO;
 import ru.entity.Employee;
-import ru.utill.SessionUtill;
+import ru.util.SessionUtill;
 
 import java.sql.SQLException;
 import java.util.List;

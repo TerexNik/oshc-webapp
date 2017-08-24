@@ -1,4 +1,4 @@
-package ru.utill;
+package ru.util;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +16,7 @@ public class SessionUtill {
     }
 
     public Session openSession() {
-        return HibernateUtill.getSesionFactory().openSession();
+        return HibernateUtil.getSessionFactory().openSession();
     }
 
     public Session openTransactionSession() {
