@@ -11,6 +11,6 @@
         <property name="hibernate.connection.password">test01</property>
         <property name="show_sql">true</property>
 
-        <mapping class="ru.entity.Employee"/>
+        <mapping class="ru.OSHC.entity.Employee"/>
     </session-factory>
 </hibernate-configuration>

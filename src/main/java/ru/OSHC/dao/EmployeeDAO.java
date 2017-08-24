@@ -1,6 +1,6 @@
-package ru.dao;
+package ru.OSHC.dao;
 
-import ru.entity.Employee;
+import ru.OSHC.entity.Employee;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -10,9 +10,10 @@
     <packaging>war</packaging>
 
     <properties>
-        <spring.version>4.3.0.RELEASE</spring.version>
+        <spring.version>4.2.4.RELEASE</spring.version>
         <hibernate.version>5.2.9.Final</hibernate.version>
         <slf4j.version>1.7.20</slf4j.version>
+        <jackson.version>2.6.5</jackson.version>
     </properties>
 
     <dependencies>
@@ -53,18 +54,23 @@
             <version>${hibernate.version}</version>
         </dependency>
 
+        <!-- JACKSON -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>3.5.6-Final</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
-        <!-- JACKSON -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
+            <version>1.9.10</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.noraui/ojdbc7 -->
@@ -74,6 +80,7 @@
             <version>12.1.0.2</version>
         </dependency>
 
+        <!-- LOGGER DEP -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

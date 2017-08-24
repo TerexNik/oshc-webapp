@@ -1,4 +1,4 @@
-package ru.entity;
+package ru.OSHC.entity;
 
 import javax.persistence.*;
 import java.sql.Date;

@@ -1,11 +1,11 @@
-package ru.service;
+package ru.OSHC.service;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
-import ru.dao.EmployeeDAO;
-import ru.entity.Employee;
-import ru.util.SessionUtill;
+import ru.OSHC.dao.EmployeeDAO;
+import ru.OSHC.entity.Employee;
+import ru.OSHC.util.SessionUtill;
 
 import java.sql.SQLException;
 import java.util.List;
