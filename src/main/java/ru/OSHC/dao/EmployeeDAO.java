@@ -14,5 +14,5 @@ public interface EmployeeDAO {
 
     void update(Employee employee) throws SQLException;
 
-    void remove(Employee employee) throws SQLException;
+    void remove(int id) throws SQLException;
 }

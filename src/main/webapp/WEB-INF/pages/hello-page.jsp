@@ -12,14 +12,6 @@
 <html lang="ru">
 <head>
     <title>Главная</title>
-
-    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <!--
-	<spring:url value="/css/main.css" var="springCss" />
-	<link href="${springCss}" rel="stylesheet" />
-	 -->
-    <c:url value="css/main.css" var="jstlCss" />
-    <link href="${jstlCss}" rel="stylesheet" />
 </head>
 <body>
 <nav>
@@ -42,6 +34,5 @@
         </div>
     </div>
 </nav>
-
 </body>
 </html>

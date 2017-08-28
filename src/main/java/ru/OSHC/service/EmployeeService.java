@@ -44,10 +44,10 @@ public class EmployeeService extends SessionUtill implements EmployeeDAO{
         closeTransactionSession();
     }
 
-    public void remove(Employee employee) throws SQLException {
+    public void remove(int id) throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        session.remove(employee);
+        session.remove(getById(id));
         closeTransactionSession();
     }
 }

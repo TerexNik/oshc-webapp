@@ -3,21 +3,14 @@
   Date: 28.08.2017
   Time: 11:47
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html lang="ru">
 <head>
     <title>Работники</title>
-
-    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <!--
-	<spring:url value="/css/main.css" var="springCss" />
-	<link href="${springCss}" rel="stylesheet" />
-	 -->
-    <c:url value="../css/main.css" var="jstlCss" />
-    <link href="${jstlCss}" rel="stylesheet" />
 </head>
 <body>
 <nav>
@@ -59,13 +52,47 @@
                                 <td>${employee.birthDate}</td>
                                 <td>${employee.salary}</td>
                                 <td>${employee.grade}</td>
-                                <td><a href="<c:url value='/edit/${employee.id}'/>">редактировать</a></td>
-                                <td><a href="<c:url value='/remove/${employee.id}'/>">удалить</a></td>
+                                <td><a href="<c:url value='/employee/edit/${employee.id}'/>">редактировать</a></td>
+                                <td><a href="<c:url value='/employee/remove/${employee.id}'/>">удалить</a></td>
                             </tr>
                         </c:forEach>
                     </table>
                 </ul>
             </c:if>
+
+            <h1>Добавить сотрудника</h1>
+            <%--@elvariable id="employee" type="ru.OSHC.entity.Employee"--%>
+            <form:form method="POST" action="/employee/add" modelAttribute="employee">
+                <table>
+                    <tr>
+                        <td><form:label path="name">Имя</form:label></td>
+                        <td><form:input path="name"/></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="surname">Фамилия</form:label></td>
+                        <td><form:input path="surname"/></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="fatherName">Отчество</form:label></td>
+                        <td><form:input path="fatherName"/></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="birthDate">Дата рождения</form:label></td>
+                        <td><form:input path="birthDate"/></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="salary">Зарплата</form:label></td>
+                        <td><form:input path="salary"/></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="grade">Грейд</form:label></td>
+                        <td><form:input path="grade"/></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Submit"/></td>
+                    </tr>
+                </table>
+            </form:form>
         </div>
     </div>
 </nav>
