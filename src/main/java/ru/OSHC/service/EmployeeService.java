@@ -15,7 +15,9 @@ public class EmployeeService extends SessionUtill implements EmployeeDAO{
     public Employee getById(int id) throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        Query query = session.createNativeQuery("select * from EMPLOYEE where id =" + id).addEntity(Employee.class);
+        String sqlString = "SELECT * FROM EMPLOYEE WHERE ID = :id";
+        Query query = session.createNativeQuery(sqlString).addEntity(Employee.class);
+        query.setParameter("id",(long) id);
         Employee employee = (Employee) query.getSingleResult();
         closeTransactionSession();
         return employee;
@@ -24,7 +26,7 @@ public class EmployeeService extends SessionUtill implements EmployeeDAO{
     public void add(Employee employee) throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        session.save(employee);
+        session.persist(employee);
         closeTransactionSession();
     }
 
@@ -45,9 +47,10 @@ public class EmployeeService extends SessionUtill implements EmployeeDAO{
     }
 
     public void remove(int id) throws SQLException {
+        Employee employee = getById(id);
         openTransactionSession();
         Session session = getSession();
-        session.remove(getById(id));
+        session.remove(employee);
         closeTransactionSession();
     }
 }

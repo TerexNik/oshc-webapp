@@ -1,14 +1,14 @@
 package ru.OSHC.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 
 @Entity
-@Table(name = "employee")
+@Table(name = "employee", schema = "TEST01")
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "name")
@@ -20,14 +20,15 @@ public class Employee {
     @Column(name = "father_name")
     private String fatherName;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")
     private Date birthDate;
 
     @Column(name = "salary")
     private int salary;
 
-    @Column(name = "grade")
-    private String grade;
+    @Column(name = "GRADE")
+    private int grade;
 
     public long getId() {
         return id;
@@ -73,11 +74,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 

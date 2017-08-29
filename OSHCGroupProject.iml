@@ -7,8 +7,8 @@
           <file>file://$MODULE_DIR$/src/main/webapp/spring-core.xml</file>
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/spring-core.xml</file>
         </fileset>
-        <fileset id="fileset" name="Core" removed="false">
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/core.xml</file>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/spring-core.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -56,6 +56,11 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.2.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.2.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.webflow:spring-webflow:2.4.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: opensymphony:ognl:2.6.11" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.webflow:spring-binding:2.4.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.webflow:spring-js:2.4.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.webflow:spring-js-resources:2.4.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:5.2.9.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
