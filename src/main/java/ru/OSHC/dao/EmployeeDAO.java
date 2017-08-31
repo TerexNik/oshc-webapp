@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface EmployeeDAO {
-    Employee getById(int id) throws SQLException;
+    Employee getById(long id) throws SQLException;
 
     void add(Employee employee) throws SQLException;
 
@@ -14,5 +14,7 @@ public interface EmployeeDAO {
 
     void update(Employee employee) throws SQLException;
 
-    void remove(int id) throws SQLException;
+    void remove(Employee employee) throws SQLException;
+
+    void remove(long id) throws SQLException;
 }

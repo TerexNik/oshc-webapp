@@ -1,30 +1,35 @@
 package ru.OSHC.entity;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Date;
 
 @Entity
-@Table(name = "certificate")
+@Table(name = "CERTIFICATE")
+//@SecondaryTables({
+//        @SecondaryTable(name="SCAN", pkJoinColumns={
+//                @PrimaryKeyJoinColumn(name="ID", referencedColumnName="SCAN_ID") })
+//})
 public class Certificate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "date")
+    @Column(name = "RECEIVE_DATE")
+    @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column(name = "company")
+    @Column(name = "COMPANY")
     private String company;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "number")
+    @Column(name = "CERT_NUMBER")
     private long number;
 
-    @Column(name = "scan")
-    private byte[] scan;
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "SCAN_ID", referencedColumnName = "ID")
+    private Scan scan;
 
     public long getId() {
         return id;
@@ -32,6 +37,22 @@ public class Certificate {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public String getName() {
@@ -50,31 +71,23 @@ public class Certificate {
         this.number = number;
     }
 
-    public byte[] getScan() {
+    public Scan getScan() {
         return scan;
     }
 
-    public void setScan(byte[] scan) {
+    public void setScan(Scan scan) {
         this.scan = scan;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
     }
 
     @Override
     public String toString() {
         return "Certificate{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", date=" + date +
                 ", company='" + company + '\'' +
                 ", name='" + name + '\'' +
                 ", number=" + number +
-                ", scan=" + Arrays.toString(scan) +
+                ", scan=" + scan +
                 '}';
     }
 }

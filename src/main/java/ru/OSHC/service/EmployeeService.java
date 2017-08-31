@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class EmployeeService extends SessionUtill implements EmployeeDAO{
-    public Employee getById(int id) throws SQLException {
+    public Employee getById(long id) throws SQLException {
         openTransactionSession();
         Session session = getSession();
         String sqlString = "SELECT * FROM EMPLOYEE WHERE ID = :id";
@@ -33,7 +33,7 @@ public class EmployeeService extends SessionUtill implements EmployeeDAO{
     public List<Employee> getAll() throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        Query query = session.createNativeQuery("select * from EMPLOYEE").addEntity(Employee.class);
+        Query query = session.createQuery("select e.id, e.name, e.surname, e.birthDate, e.salary from Employee e");
         List<Employee> employees = query.list();
         closeTransactionSession();
         return employees;
@@ -46,7 +46,14 @@ public class EmployeeService extends SessionUtill implements EmployeeDAO{
         closeTransactionSession();
     }
 
-    public void remove(int id) throws SQLException {
+    public void remove(Employee employee) throws SQLException {
+        openTransactionSession();
+        Session session = getSession();
+        session.delete(employee);
+        closeTransactionSession();
+    }
+
+    public void remove(long id) throws SQLException {
         Employee employee = getById(id);
         openTransactionSession();
         Session session = getSession();
