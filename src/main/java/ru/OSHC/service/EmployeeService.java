@@ -5,18 +5,19 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import ru.OSHC.dao.EmployeeDAO;
 import ru.OSHC.entity.Employee;
+import ru.OSHC.util.HqlConstants;
 import ru.OSHC.util.SessionUtill;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Service
-public class EmployeeService extends SessionUtill implements EmployeeDAO{
+public class EmployeeService extends SessionUtill implements EmployeeDAO, HqlConstants{
     public Employee getById(long id) throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        String sqlString = "SELECT * FROM EMPLOYEE WHERE ID = :id";
-        Query query = session.createNativeQuery(sqlString).addEntity(Employee.class);
+        String hql = "from Employee e where e.id = :id";
+        Query query = session.createQuery(hql);
         query.setParameter("id",(long) id);
         Employee employee = (Employee) query.getSingleResult();
         closeTransactionSession();
@@ -33,7 +34,7 @@ public class EmployeeService extends SessionUtill implements EmployeeDAO{
     public List<Employee> getAll() throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        Query query = session.createQuery("select e.id, e.name, e.surname, e.birthDate, e.salary from Employee e");
+        Query query = session.createQuery("from Employee e");
         List<Employee> employees = query.list();
         closeTransactionSession();
         return employees;

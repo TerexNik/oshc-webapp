@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "POST")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column

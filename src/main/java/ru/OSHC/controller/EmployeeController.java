@@ -26,7 +26,7 @@ public class EmployeeController {
         return null;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public Employee getEmployee(@PathVariable long id) {
         try {
             return employeeService.getById(id);
@@ -36,7 +36,7 @@ public class EmployeeController {
         return null;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addEmployeeView(@RequestBody Employee employee) {
         try {
@@ -51,6 +51,16 @@ public class EmployeeController {
     public void removeEmployee(@RequestBody Employee employee) {
         try {
             employeeService.remove(employee);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployeeById(@PathVariable long id) {
+        try {
+            employeeService.remove(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }

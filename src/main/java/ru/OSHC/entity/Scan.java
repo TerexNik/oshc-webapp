@@ -7,7 +7,6 @@ import java.util.Arrays;
 @Table(name = "SCAN")
 public class Scan {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "SCAN")

@@ -5,13 +5,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "CERTIFICATE")
-//@SecondaryTables({
-//        @SecondaryTable(name="SCAN", pkJoinColumns={
-//                @PrimaryKeyJoinColumn(name="ID", referencedColumnName="SCAN_ID") })
-//})
 public class Certificate {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "RECEIVE_DATE")
@@ -27,9 +22,8 @@ public class Certificate {
     @Column(name = "CERT_NUMBER")
     private long number;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "SCAN_ID", referencedColumnName = "ID")
-    private Scan scan;
+    @Column(name = "SCAN_ID")
+    private Long scanId;
 
     public long getId() {
         return id;
@@ -71,12 +65,12 @@ public class Certificate {
         this.number = number;
     }
 
-    public Scan getScan() {
-        return scan;
+    public Long getScanId() {
+        return scanId;
     }
 
-    public void setScan(Scan scan) {
-        this.scan = scan;
+    public void setScanId(Long scanId) {
+        this.scanId = scanId;
     }
 
     @Override
@@ -87,7 +81,7 @@ public class Certificate {
                 ", company='" + company + '\'' +
                 ", name='" + name + '\'' +
                 ", number=" + number +
-                ", scan=" + scan +
+                ", scan=" + scanId +
                 '}';
     }
 }

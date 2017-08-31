@@ -6,19 +6,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "EMPLOYEE")
-//@SecondaryTables({
-//        @SecondaryTable(name="POST", pkJoinColumns={
-//                @PrimaryKeyJoinColumn(name="ID", referencedColumnName="POST_ID")}),
-//        @SecondaryTable(name = "GRADE", pkJoinColumns = {
-//                @PrimaryKeyJoinColumn(name = "ID", referencedColumnName = "GRADE_ID")}),
-//        @SecondaryTable(name="DEPARTMENT", pkJoinColumns={
-//                @PrimaryKeyJoinColumn(name="ID", referencedColumnName="DEPARTMENT_ID")}),
-//        @SecondaryTable(name="CERTIFICATE", pkJoinColumns={
-//                @PrimaryKeyJoinColumn(name="ID", referencedColumnName="CERTIFICATE_ID")}),
-//})
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "NAME")
@@ -37,21 +26,17 @@ public class Employee {
     @Column(name = "SALARY")
     private int salary;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "POST_ID", referencedColumnName = "ID")
-    private Post post;
+    @Column(name = "POST_ID")
+    private Long postId;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "GRADE_ID", referencedColumnName = "ID")
-    private Grade grade;
+    @Column(name = "GRADE_ID")
+    private Long gradeId;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "DEPARTMENT_ID", referencedColumnName = "ID")
-    private Department department ;
+    @Column(name = "DEPARTMENT_ID")
+    private Long departmentId ;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "CERTIFICATE_ID", referencedColumnName = "ID")
-    private Certificate certificate;
+    @Column(name = "CERTIFICATE_ID")
+    private Long certificateId;
 
     public long getId() {
         return id;
@@ -101,36 +86,36 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Post getPost() {
-        return post;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
-    public Grade getGrade() {
-        return grade;
+    public Long getGradeId() {
+        return gradeId;
     }
 
-    public void setGrade(Grade grade) {
-        this.grade = grade;
+    public void setGradeId(Long gradeId) {
+        this.gradeId = gradeId;
     }
 
-    public Department getDepartment() {
-        return department;
+    public Long getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 
-    public Certificate getCertificate() {
-        return certificate;
+    public Long getCertificateId() {
+        return certificateId;
     }
 
-    public void setCertificate(Certificate certificate) {
-        this.certificate = certificate;
+    public void setCertificateId(Long certificateId) {
+        this.certificateId = certificateId;
     }
 
     @Override
@@ -142,10 +127,10 @@ public class Employee {
                 ", fatherName='" + fatherName + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +
-                ", post=" + post +
-                ", grade=" + grade +
-                ", department=" + department +
-                ", certificate=" + certificate +
+                ", postId=" + postId +
+                ", gradeId=" + gradeId +
+                ", departmentId=" + departmentId +
+                ", certificateId=" + certificateId +
                 '}';
     }
 }

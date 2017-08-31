@@ -4,20 +4,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "DEPARTMENT")
-//@SecondaryTable(name = "EMPLOYEE", pkJoinColumns = {
-//        @PrimaryKeyJoinColumn(name = "ID", referencedColumnName = "HEAD_EMPLOYEE_ID")
-//})
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
     private String name;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "HEAD_EMPLOYEE_ID", referencedColumnName = "ID")
-    private Employee employee;
+    @Column(name = "HEAD_EMPLOYEE_ID")
+    private Long headEmployeeId;
 
     public long getId() {
         return id;
@@ -35,12 +30,12 @@ public class Department {
         this.name = name;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public long getHeadEmployeeId() {
+        return headEmployeeId;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setHeadEmployeeId(long headEmployeeId) {
+        this.headEmployeeId = headEmployeeId;
     }
 
     @Override
@@ -48,7 +43,7 @@ public class Department {
         return "Department{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", employee=" + employee +
+                ", employeeId=" + headEmployeeId +
                 '}';
     }
 }
