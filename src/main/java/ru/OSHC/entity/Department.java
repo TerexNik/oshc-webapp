@@ -2,6 +2,19 @@ package ru.OSHC.entity;
 
 import javax.persistence.*;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getDepartmentWithNames",
+                query = "select d.id, d.name, e.name, e.surname" +
+                        " from Department d" +
+                        " inner join Employee e on d.headEmployeeId = e.id or d.headEmployeeId is null"
+        ),
+        @NamedQuery(
+                name = "getDepartmentById",
+                query = "from Department d where d.id = :id"
+        )
+})
+
 @Entity
 @Table(name = "DEPARTMENT")
 public class Department {

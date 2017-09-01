@@ -2,19 +2,6 @@ package ru.OSHC.dao;
 
 import ru.OSHC.entity.Employee;
 
-import java.sql.SQLException;
-import java.util.List;
+public interface EmployeeDAO extends BaseDAO<Employee>{
 
-public interface EmployeeDAO {
-    Employee getById(long id) throws SQLException;
-
-    void add(Employee employee) throws SQLException;
-
-    List<Employee> getAll() throws SQLException;
-
-    void update(Employee employee) throws SQLException;
-
-    void remove(Employee employee) throws SQLException;
-
-    void remove(long id) throws SQLException;
 }

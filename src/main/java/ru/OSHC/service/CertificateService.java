@@ -5,13 +5,13 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import ru.OSHC.dao.CertificateDAO;
 import ru.OSHC.entity.Certificate;
-import ru.OSHC.util.SessionUtill;
+import ru.OSHC.util.SessionUtil;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Service
-public class CertificateService extends SessionUtill implements CertificateDAO {
+public class CertificateService extends SessionUtil implements CertificateDAO {
     public Certificate getByID(int id) throws SQLException {
         openTransactionSession();
         Session session = getSession();
