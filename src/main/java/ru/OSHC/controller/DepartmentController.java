@@ -33,6 +33,16 @@ public class DepartmentController extends BaseCRUDController<Department> {
         }
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void add(@RequestBody Department obj) {
+        try {
+            departmentService.add(obj);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Department getById(@PathVariable Long id) {
         try {

@@ -16,16 +16,21 @@ import javax.persistence.*;
 })
 
 @Entity
-@Table(name = "DEPARTMENT")
+@Table
 public class Department {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "HEAD_EMPLOYEE_ID")
+    @Column
     private Long headEmployeeId;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Department parentDepartment;
 
     public long getId() {
         return id;
@@ -43,11 +48,11 @@ public class Department {
         this.name = name;
     }
 
-    public long getHeadEmployeeId() {
+    public Long getHeadEmployeeId() {
         return headEmployeeId;
     }
 
-    public void setHeadEmployeeId(long headEmployeeId) {
+    public void setHeadEmployeeId(Long headEmployeeId) {
         this.headEmployeeId = headEmployeeId;
     }
 

@@ -19,7 +19,7 @@ public abstract class BaseCRUDController<T> {
 
     abstract void deleteById(@PathVariable Long id);
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void add(@RequestBody T obj) {
         try {

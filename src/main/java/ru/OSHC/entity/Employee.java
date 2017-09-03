@@ -20,38 +20,43 @@ import java.util.Date;
 })
 
 @Entity
-@Table(name = "EMPLOYEE")
+@Table
 public class Employee {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "NAME")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "SURNAME")
+    @Column(nullable = false)
     private String surname;
 
-    @Column(name = "FATHER_NAME")
+    @Column
     private String fatherName;
 
-    @Column(name = "BIRTH_DATE")
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
-    @Column(name = "SALARY")
+    @Column(nullable = false)
     private int salary;
 
-    @Column(name = "POST_ID")
-    private Long postId;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Post postId;
 
-    @Column(name = "GRADE_ID")
-    private Long gradeId;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Grade gradeId;
 
-    @Column(name = "DEPARTMENT_ID")
-    private Long departmentId ;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Department departmentId ;
 
-    @Column(name = "CERTIFICATE_ID")
-    private Long certificateId;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Certificate certificateId;
 
     public long getId() {
         return id;
@@ -101,35 +106,35 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Long getPostId() {
+    public Post getPostId() {
         return postId;
     }
 
-    public void setPostId(Long postId) {
+    public void setPostId(Post postId) {
         this.postId = postId;
     }
 
-    public Long getGradeId() {
+    public Grade getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(Long gradeId) {
+    public void setGradeId(Grade gradeId) {
         this.gradeId = gradeId;
     }
 
-    public Long getDepartmentId() {
+    public Department getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(Long departmentId) {
+    public void setDepartmentId(Department departmentId) {
         this.departmentId = departmentId;
     }
 
-    public Long getCertificateId() {
+    public Certificate getCertificateId() {
         return certificateId;
     }
 
-    public void setCertificateId(Long certificateId) {
+    public void setCertificateId(Certificate certificateId) {
         this.certificateId = certificateId;
     }
 

@@ -3,12 +3,13 @@ package ru.OSHC.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "GRADE")
+@Table
 public class Grade {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     public long getId() {

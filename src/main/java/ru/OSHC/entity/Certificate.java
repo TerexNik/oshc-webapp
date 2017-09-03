@@ -4,26 +4,28 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "CERTIFICATE")
+@Table
 public class Certificate {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "RECEIVE_DATE")
     @Temporal(TemporalType.DATE)
+    @Column
     private Date date;
 
-    @Column(name = "COMPANY")
+    @Column
     private String company;
 
-    @Column(name = "NAME")
+    @Column
     private String name;
 
-    @Column(name = "CERT_NUMBER")
-    private long number;
+    @Column
+    private long certNumber;
 
-    @Column(name = "SCAN_ID")
-    private Long scanId;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Scan scanId;
 
     public long getId() {
         return id;
@@ -57,19 +59,19 @@ public class Certificate {
         this.name = name;
     }
 
-    public long getNumber() {
-        return number;
+    public long getCertNumber() {
+        return certNumber;
     }
 
-    public void setNumber(long number) {
-        this.number = number;
+    public void setCertNumber(long certNumber) {
+        this.certNumber = certNumber;
     }
 
-    public Long getScanId() {
+    public Scan getScanId() {
         return scanId;
     }
 
-    public void setScanId(Long scanId) {
+    public void setScanId(Scan scanId) {
         this.scanId = scanId;
     }
 
@@ -80,7 +82,7 @@ public class Certificate {
                 ", date=" + date +
                 ", company='" + company + '\'' +
                 ", name='" + name + '\'' +
-                ", number=" + number +
+                ", number=" + certNumber +
                 ", scan=" + scanId +
                 '}';
     }

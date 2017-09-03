@@ -22,9 +22,9 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="${pageContext.request.contextPath}/">Главная</a></li>
-                <li><a href="${pageContext.request.contextPath}departments/">Департаменты</a></li>
-                <li><a href="${pageContext.request.contextPath}employee/">Работники</a></li>
-                <li><a href="${pageContext.request.contextPath}auditing/">Аудит</a></li>
+                <li><a href="${pageContext.request.contextPath}/departments/">Департаменты</a></li>
+                <li><a href="${pageContext.request.contextPath}/employees/">Работники</a></li>
+                <li><a href="${pageContext.request.contextPath}/auditing/">Аудит</a></li>
             </ul>
         </div>
 

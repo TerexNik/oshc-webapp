@@ -49,7 +49,7 @@ public abstract class BaseService<T> extends SessionUtil implements BaseDAO<T> {
     public void add(T obj) throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        session.persist(obj);
+        session.save(obj);
         closeTransactionSession();
     }
 

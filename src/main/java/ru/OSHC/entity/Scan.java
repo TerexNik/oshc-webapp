@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "SCAN")
+@Table
 public class Scan {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "SCAN")
+    @Column
     private byte[] scan;
 
     public long getId() {

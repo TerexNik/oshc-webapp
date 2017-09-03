@@ -81,11 +81,11 @@
             <version>1.9.10</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.github.noraui/ojdbc7 -->
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
-            <groupId>com.github.noraui</groupId>
-            <artifactId>ojdbc7</artifactId>
-            <version>12.1.0.2</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.4</version>
         </dependency>
 
         <!-- LOGGER DEP -->
