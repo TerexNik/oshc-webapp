@@ -5,11 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Department;
-import ru.OSHC.entity.Employee;
-import ru.OSHC.service.BaseService;
 import ru.OSHC.service.DepartmentService;
 
-import java.sql.SQLException;
 import java.util.List;
 
 
@@ -33,16 +30,6 @@ public class DepartmentController extends BaseCRUDController<Department> {
     List getAll(){
         return getList("getDepartmentList");
     }
-
-//    @RequestMapping(method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    void add(@RequestBody Department obj) {
-//        try {
-//            departmentService.add(obj);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Department getElementById(@PathVariable Long id) {
