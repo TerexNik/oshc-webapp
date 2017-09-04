@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface CertificateDAO {
-    Certificate getByID(int id) throws SQLException;
+    Certificate getByID(long id) throws SQLException;
 
     void add(Certificate certificate) throws SQLException;
 
@@ -15,4 +15,6 @@ public interface CertificateDAO {
     void update(Certificate certificate) throws SQLException;
 
     void remove(Certificate certificate) throws SQLException;
+
+    void remove(long id) throws SQLException;
 }

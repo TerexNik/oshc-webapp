@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OSHCGroupProject.iml" filepath="$PROJECT_DIR$/OSHCGroupProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oshcwebapp.iml" filepath="$PROJECT_DIR$/oshcwebapp.iml" />
     </modules>
   </component>
 </project>
