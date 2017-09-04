@@ -8,11 +8,9 @@ public interface BaseDAO<T> {
 
     void removeById(Long id, String namedQuery) throws SQLException;
 
-    List getWithNames(String namedQuery) throws SQLException;
-
     void add(T obj) throws SQLException;
 
-    List getAll(String className) throws SQLException;
+    List getAll(String namedHQL) throws SQLException;
 
     void update(T obj) throws SQLException;
 

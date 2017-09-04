@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Employee;
 import ru.OSHC.service.EmployeeService;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -15,31 +14,29 @@ import java.util.List;
 public class EmployeeController extends BaseCRUDController<Employee> {
     private static final Logger log = Logger.getLogger(EmployeeController.class);
 
-    @RequestMapping(method = RequestMethod.GET)
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        setService(employeeService);
+    }
+
+    @RequestMapping(value = "/clear",method = RequestMethod.GET)
     List getWithNames() {
-        try {
-            return getService().getWithNames("getEmployeeWithNames");
-        } catch (SQLException e) {
-            return null;
-        }
+        return getList("getEmployeeWithNames");
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    List getAll() {
+        return getList("getEmployeeList");
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Employee getById(@PathVariable Long id) {
-        try {
-            return getService().getById(id, "getEmployeeById");
-        } catch (SQLException e) {
-            return null;
-        }
+    Employee getEmployeeById(@PathVariable Long id) {
+        return getById(id, "getEmployeeById");
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        try {
-            getService().removeById(id, "getEmployeeById");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        deleteById(id, "getEmployeeById");
     }
 }

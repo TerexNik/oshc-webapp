@@ -6,9 +6,9 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(
                 name = "getEmployeeWithNames",
-                query = "select e.id, e.name, e.surname, e.birthDate, e.salary, d.name, p.name, g.name, c.name " +
+                query = "select e.id, e.name, e.surname, e.birthDate, e.salary, d.name, p.name, g.name, c.certName " +
                         "from  Employee as e " +
-                        "inner join Department as d on e.departmentId = d.id " +
+                        "inner join Department d on e.departmentId = d.id " +
                         "inner join Post as p on e.postId = p.id " +
                         "inner join Grade as g on e.gradeId = g.id " +
                         "inner join Certificate as c on e.certificateId = c.id or e.certificateId is null"
@@ -16,6 +16,10 @@ import java.util.Date;
         @NamedQuery(
                 name = "getEmployeeById",
                 query = "from Employee e where e.id = :id"
+        ),
+        @NamedQuery(
+                name = "getEmployeeList",
+                query = "from Employee"
         )
 })
 
@@ -23,7 +27,6 @@ import java.util.Date;
 @Table
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)

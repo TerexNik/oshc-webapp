@@ -20,23 +20,22 @@ import java.util.Date;
 @Table
 public class Certificate {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    @Column
-    private Date date;
+    private Date certDate;
 
     @Column
     private String company;
 
     @Column
-    private String name;
+    private String certName;
 
     @Column
     private long certNumber;
 
-    @OneToOne
+    @ManyToOne
     @PrimaryKeyJoinColumn
     private Scan scanId;
 
@@ -48,12 +47,12 @@ public class Certificate {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCertDate() {
+        return certDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCertDate(Date date) {
+        this.certDate = date;
     }
 
     public String getCompany() {
@@ -64,12 +63,12 @@ public class Certificate {
         this.company = company;
     }
 
-    public String getName() {
-        return name;
+    public String getCertName() {
+        return certName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCertName(String name) {
+        this.certName = name;
     }
 
     public long getCertNumber() {
@@ -92,11 +91,11 @@ public class Certificate {
     public String toString() {
         return "Certificate{" +
                 "id=" + id +
-                ", date=" + date +
+                ", date=" + certDate +
                 ", company='" + company + '\'' +
-                ", name='" + name + '\'' +
-                ", number=" + certNumber +
-                ", scan=" + scanId +
+                ", certName='" + certName + '\'' +
+                ", certNumber=" + certNumber +
+                ", scanId=" + scanId +
                 '}';
     }
 }

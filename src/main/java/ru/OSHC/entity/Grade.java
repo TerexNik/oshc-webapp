@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table
 public class Grade {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)
