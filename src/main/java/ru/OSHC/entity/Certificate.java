@@ -3,6 +3,19 @@ package ru.OSHC.entity;
 import javax.persistence.*;
 import java.util.Date;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getCertificatesWithNames",
+                query = "select c.id, c.receiveDate, c.company, c.name, c.number, s.scan " +
+                        "from  Certificate as c " +
+                        "inner join Scan as s on c.scanId = s.id "
+        ),
+        @NamedQuery(
+                name = "getCertificateById",
+                query = "from Certificate c where c.id = :id"
+        )
+})
+
 @Entity
 @Table(name = "CERTIFICATE")
 public class Certificate {
