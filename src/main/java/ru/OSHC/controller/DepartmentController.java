@@ -17,49 +17,42 @@ import java.util.List;
 @RequestMapping("/departments")
 public class DepartmentController extends BaseCRUDController<Department> {
     private static final Logger log = Logger.getLogger(DepartmentController.class);
-    private final DepartmentService departmentService;
+
 
     @Autowired
     public DepartmentController(DepartmentService departmentService) {
-        this.departmentService = departmentService;
+        setService(departmentService);
+    }
+
+    @RequestMapping(value = "/clear", method = RequestMethod.GET)
+    List getWithNames() {
+        return getList("getDepartmentWithNames");
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    List getWithNames() {
-        try {
-            return getService().getWithNames("getDepartmentWithNames");
-        } catch (SQLException e) {
-            return null;
-        }
+    List getAll(){
+        return getList("getDepartmentList");
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void add(@RequestBody Department obj) {
-        try {
-            departmentService.add(obj);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    void add(@RequestBody Department obj) {
+//        try {
+//            departmentService.add(obj);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Department getById(@PathVariable Long id) {
-        try {
-            return getService().getById(id, "getDepartmentById");
-        } catch (SQLException e) {
-            return null;
-        }
+    Department getElementById(@PathVariable Long id) {
+        return getById(id, "getDepartmentById");
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        try {
-            getService().removeById(id, "getDepartmentById");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        deleteById(id, "getDepartmentById");
     }
 
 }

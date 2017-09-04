@@ -5,13 +5,17 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(
                 name = "getDepartmentWithNames",
-                query = "select d.id, d.name, e.name, e.surname" +
+                query = "select d.name, e.name, e.surname" +
                         " from Department d" +
                         " inner join Employee e on d.headEmployeeId = e.id or d.headEmployeeId is null"
         ),
         @NamedQuery(
                 name = "getDepartmentById",
                 query = "from Department d where d.id = :id"
+        ),
+        @NamedQuery(
+                name = "getDepartmentList",
+                query = "from Department d"
         )
 })
 
@@ -19,7 +23,6 @@ import javax.persistence.*;
 @Table
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)

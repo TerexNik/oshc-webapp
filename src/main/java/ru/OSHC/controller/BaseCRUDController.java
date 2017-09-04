@@ -13,11 +13,29 @@ public abstract class BaseCRUDController<T> {
 
     private BaseService<T> service;
 
-    abstract List getWithNames();
+    T getById(Long id, String namedHQL) {
+        try {
+            return service.getById(id, namedHQL);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
 
-    abstract T getById(@PathVariable Long id);
+    void deleteById(Long id, String namedHQL) {
+        try {
+            service.removeById(id, namedHQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-    abstract void deleteById(@PathVariable Long id);
+    List getList(String namedHQL) {
+        try {
+            return service.getAll(namedHQL);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -49,12 +67,7 @@ public abstract class BaseCRUDController<T> {
         }
     }
 
-    public BaseService<T> getService() {
-        return service;
-    }
-
-    @Autowired
-    public void setService(BaseService<T> service) {
+    void setService(BaseService<T> service) {
         this.service = service;
     }
 }

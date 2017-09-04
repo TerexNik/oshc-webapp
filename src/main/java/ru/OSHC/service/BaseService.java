@@ -28,20 +28,11 @@ public abstract class BaseService<T> extends SessionUtil implements BaseDAO<T> {
         closeTransactionSession();
     }
 
-    public List getWithNames(String namedQuerry) throws SQLException {
+    public List getAll(String namedHQL) throws SQLException {
         openTransactionSession();
         Session session = getSession();
-        Query query = session.getNamedQuery(namedQuerry);
+        Query query = session.createNamedQuery(namedHQL);
         List list = query.list();
-        closeTransactionSession();
-        return list;
-    }
-
-    public List getAll(String className) throws SQLException {
-        openTransactionSession();
-        Session session = getSession();
-        Query query = session.createQuery("from " + className);
-        List<T> list = query.list();
         closeTransactionSession();
         return list;
     }
