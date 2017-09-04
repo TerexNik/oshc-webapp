@@ -6,8 +6,8 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(
                 name = "getCertificatesWithNames",
-                query = "select c.id, c.receiveDate, c.company, c.name, c.number, s.scan " +
-                        "from  Certificate as c " +
+                query = "select c.id, c.certDate, c.company, c.certDate, c.certNumber, s.scan " +
+                        "from  Certificate c " +
                         "inner join Scan as s on c.scanId = s.id "
         ),
         @NamedQuery(
@@ -22,7 +22,7 @@ public class Certificate {
     @Id
     private long id;
 
-    @Column(nullable = false)
+    @Column
     @Temporal(TemporalType.DATE)
     private Date certDate;
 
