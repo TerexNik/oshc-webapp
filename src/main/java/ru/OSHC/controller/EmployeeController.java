@@ -15,17 +15,35 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
     private static final Logger log = Logger.getLogger(EmployeeController.class);
-    private EmployeeService employeeService;
-    private BaseCRUDController<Employee> baseCRUDController = new BaseCRUDController<Employee>(employeeService);
+    private BaseCRUDController<Employee> baseCRUDController;
+    private EmployeeService service;
 
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        baseCRUDController = new BaseCRUDController<Employee>(employeeService);
+        service = employeeService;
+    }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/changeDepartment", method = RequestMethod.PUT)
-    void changeDepartment(@RequestBody Department from, @RequestBody Department to) {
+    void changeDepartment(@RequestBody List<Department> departments) {
         try {
-            employeeService.migrateFromDepAtoDepB(from, to);
+            service.migrateFromDepAtoDepB(departments.get(0), departments.get(1));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void addDepartment(@RequestBody Employee employee) {
+        baseCRUDController.add(employee);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void update(@RequestBody Employee employee) {
+        baseCRUDController.update(employee);
     }
 
     @RequestMapping(value = "/clear",method = RequestMethod.GET)
