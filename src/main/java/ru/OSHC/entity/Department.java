@@ -8,13 +8,17 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(
                 name = "getDepartmentWithNames",
-                query = "select d.name, e.name, e.surname" +
+                query = "select d.id, d.name, d.parentDepartment.name, d.headEmployee, e.name, e.surname" +
                         " from Department d" +
-                        " inner join Employee e on d.headEmployeeId = e.id or d.headEmployeeId is null"
+                        " inner join Employee e on d.headEmployee = e.id or d.headEmployee is null"
         ),
         @NamedQuery(
                 name = "getDepartmentById",
                 query = "from Department d where d.id = :id"
+        ),
+        @NamedQuery(
+                name = "getSubDepartmentsList",
+                query = "select d.id, d.name from Department d where d.parentDepartment.id = :id"
         ),
         @NamedQuery(
                 name = "getDepartmentList",
@@ -34,8 +38,8 @@ public class Department {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private Long headEmployeeId;
+    @Column(name = "HEADEMPLOYEE_ID")
+    private Long headEmployee;
 
     @ManyToOne
     @Fetch(FetchMode.JOIN)
@@ -58,12 +62,12 @@ public class Department {
         this.name = name;
     }
 
-    public Long getHeadEmployeeId() {
-        return headEmployeeId;
+    public Long getHeadEmployee() {
+        return headEmployee;
     }
 
-    public void setHeadEmployeeId(Long headEmployeeId) {
-        this.headEmployeeId = headEmployeeId;
+    public void setHeadEmployee(Long headEmployeeId) {
+        this.headEmployee = headEmployeeId;
     }
 
     public Department getParentDepartment() {
@@ -79,7 +83,7 @@ public class Department {
         return "Department{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", headEmployeeId=" + headEmployeeId +
+                ", headEmployee=" + headEmployee +
                 ", parentDepartment=" + parentDepartment +
                 '}';
     }

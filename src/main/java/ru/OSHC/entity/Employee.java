@@ -11,18 +11,24 @@ import java.util.Date;
                 name = "getEmployeeWithNames",
                 query = "select e.id, e.name, e.surname, e.birthDate, e.salary, d.name, p.name, g.name, c.certName " +
                         "from  Employee as e " +
-                        "inner join Department d on e.departmentId = d.id " +
-                        "inner join Post as p on e.postId = p.id " +
-                        "inner join Grade as g on e.gradeId = g.id " +
-                        "inner join Certificate as c on e.certificateId = c.id or e.certificateId is null"
+                        "inner join Department d on e.department.id = d.id " +
+                        "inner join Post as p on e.post.id = p.id " +
+                        "inner join Grade as g on e.grade.id = g.id " +
+                        "inner join Certificate as c on e.certificate.id = c.id or e.certificate is null"
         ),
         @NamedQuery(
                 name = "getEmployeeById",
                 query = "from Employee e where e.id = :id"
         ),
         @NamedQuery(
+                name = "getEmployeesDepartmentId",
+                query = "select e.name, e.surname, e.fatherName, e.salary, e.birthDate, e.post.name, e.grade.name" +
+                        " from Employee e" +
+                        " where e.department.id = :id"
+        ),
+        @NamedQuery(
                 name = "getEmployeeList",
-                query = "from Employee"
+                query = "from Employee e"
         )
 })
 
@@ -53,22 +59,22 @@ public class Employee {
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
-    private Post postId;
+    private Post post;
 
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
-    private Grade gradeId;
+    private Grade grade;
 
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
-    private Department departmentId ;
+    private Department department;
 
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
-    private Certificate certificateId;
+    private Certificate certificate;
 
     public long getId() {
         return id;
@@ -118,36 +124,36 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Post getPostId() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostId(Post postId) {
-        this.postId = postId;
+    public void setPost(Post postId) {
+        this.post = postId;
     }
 
-    public Grade getGradeId() {
-        return gradeId;
+    public Grade getGrade() {
+        return grade;
     }
 
-    public void setGradeId(Grade gradeId) {
-        this.gradeId = gradeId;
+    public void setGrade(Grade gradeId) {
+        this.grade = gradeId;
     }
 
-    public Department getDepartmentId() {
-        return departmentId;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(Department departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(Department departmentId) {
+        this.department = departmentId;
     }
 
-    public Certificate getCertificateId() {
-        return certificateId;
+    public Certificate getCertificate() {
+        return certificate;
     }
 
-    public void setCertificateId(Certificate certificateId) {
-        this.certificateId = certificateId;
+    public void setCertificate(Certificate certificateId) {
+        this.certificate = certificateId;
     }
 
     @Override
@@ -159,10 +165,10 @@ public class Employee {
                 ", fatherName='" + fatherName + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +
-                ", postId=" + postId +
-                ", gradeId=" + gradeId +
-                ", departmentId=" + departmentId +
-                ", certificateId=" + certificateId +
+                ", post=" + post +
+                ", grade=" + grade +
+                ", department=" + department +
+                ", certificate=" + certificate +
                 '}';
     }
 }

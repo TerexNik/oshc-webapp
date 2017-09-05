@@ -56,6 +56,11 @@ public class DepartmentController {
         }
     }
 
+    @RequestMapping(value = "/get/{id}/sub-departments", method = RequestMethod.GET)
+    List getSubDepartments(@PathVariable long id) {
+        return service.getSubDepartments(id);
+    }
+
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Department getElementById(@PathVariable Long id) {
         return baseCRUDController.getById(id, "getDepartmentById");

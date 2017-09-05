@@ -17,8 +17,8 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         openTransactionSession();
         Session session = getSession();
         for (Employee e : employees) {
-            if (e.getDepartmentId().getId() == from.getId()) {
-                e.setDepartmentId(to);
+            if (e.getDepartment().getId() == from.getId()) {
+                e.setDepartment(to);
                 session.update(e);
             }
         }

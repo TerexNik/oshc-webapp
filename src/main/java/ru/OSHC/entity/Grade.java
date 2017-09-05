@@ -7,7 +7,7 @@ import javax.persistence.*;
                 name = "getGradesWithNames",
                 query = "select g.name, e.name, e.surname" +
                         " from Employee e" +
-                        " left join Grade g on g.id = e.gradeId"
+                        " left join Grade g on g.id = e.grade"
         ),
         @NamedQuery(
                 name = "getGradesList",
