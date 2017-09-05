@@ -2,6 +2,23 @@ package ru.OSHC.entity;
 
 import javax.persistence.*;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getPostsWithNames",
+                query = "select p.name, e.name, e.surname" +
+                        " from Employee e" +
+                        " left join Post p on p.id = e.postId"
+        ),
+        @NamedQuery(
+                name = "getPostsList",
+                query = "from Post p"
+        ),
+        @NamedQuery(
+                name = "getPostById",
+                query = "from Post p where p.id = :id"
+        ),
+})
+
 @Entity
 @Table
 public class Post {
