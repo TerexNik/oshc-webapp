@@ -82,7 +82,6 @@ public class Department {
         return "Department{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", headEmployeeId=" + headEmployeeId +
                 ", parentDepartment=" + parentDepartment +
                 '}';
     }

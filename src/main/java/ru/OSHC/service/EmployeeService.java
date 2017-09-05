@@ -13,12 +13,13 @@ import java.util.List;
 public class EmployeeService extends BaseService<Employee> implements EmployeeDAO{
 
     public void migrateFromDepAtoDepB(Department from, Department to) throws SQLException {
+        List<Employee> employees = getAll("getEmployeeList");
         openTransactionSession();
         Session session = getSession();
-        List<Employee> employees = getAll("getEmployeeList");
         for (Employee e : employees) {
-            if (e.getDepartmentId() == from) {
+            if (e.getDepartmentId().getId() == from.getId()) {
                 e.setDepartmentId(to);
+                session.update(e);
             }
         }
         closeTransactionSession();
