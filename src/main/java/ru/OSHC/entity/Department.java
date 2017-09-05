@@ -1,6 +1,5 @@
 package ru.OSHC.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -35,10 +34,8 @@ public class Department {
     @Column(nullable = false)
     private String name;
 
-    @JsonIgnore
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Employee headEmployeeId;
+    @Column
+    private Long headEmployeeId;
 
     @ManyToOne
     @Fetch(FetchMode.JOIN)
@@ -61,11 +58,11 @@ public class Department {
         this.name = name;
     }
 
-    public Employee getHeadEmployeeId() {
+    public Long getHeadEmployeeId() {
         return headEmployeeId;
     }
 
-    public void setHeadEmployeeId(Employee headEmployeeId) {
+    public void setHeadEmployeeId(Long headEmployeeId) {
         this.headEmployeeId = headEmployeeId;
     }
 
@@ -82,6 +79,7 @@ public class Department {
         return "Department{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", headEmployeeId=" + headEmployeeId +
                 ", parentDepartment=" + parentDepartment +
                 '}';
     }
