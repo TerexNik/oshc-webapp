@@ -3,6 +3,23 @@ package ru.OSHC.entity;
 import javax.persistence.*;
 import java.util.Arrays;
 
+@NamedQueries({
+    @NamedQuery(
+            name = "getScans",
+            query = "select s.id, s.scan " +
+                    "from Scan  s " +
+                    "inner join Certificate as c on s.id = c.scanId "
+    ),
+        @NamedQuery(
+                name = "getScanById",
+                query = "from Scan s where s.id = :id"
+        ),
+        @NamedQuery(
+                name = "getScansList",
+                query = "from Scan"
+        )
+})
+
 @Entity
 @Table
 public class Scan {
