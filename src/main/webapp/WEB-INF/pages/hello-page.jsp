@@ -24,6 +24,8 @@
                 <li class="active"><a href="${pageContext.request.contextPath}/">Главная</a></li>
                 <li><a href="${pageContext.request.contextPath}/departments/">Департаменты</a></li>
                 <li><a href="${pageContext.request.contextPath}/employees/">Работники</a></li>
+                <li><a href="${pageContext.request.contextPath}/grades/">Грейды</a></li>
+                <li><a href="${pageContext.request.contextPath}/posts/">Посты</a></li>
                 <li><a href="${pageContext.request.contextPath}/auditing/">Аудит</a></li>
             </ul>
         </div>

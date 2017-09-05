@@ -2,6 +2,24 @@ package ru.OSHC.entity;
 
 import javax.persistence.*;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getGradesWithNames",
+                query = "select g.name, e.name, e.surname" +
+                        " from Employee e" +
+                        " left join Grade g on g.id = e.gradeId"
+        ),
+        @NamedQuery(
+                name = "getGradesList",
+                query = "from Grade g"
+        ),
+        @NamedQuery(
+                name = "getGradeById",
+                query = "from Grade g where g.id = :id"
+        ),
+})
+
+
 @Entity
 @Table
 public class Grade {
@@ -35,3 +53,4 @@ public class Grade {
                 '}';
     }
 }
+
