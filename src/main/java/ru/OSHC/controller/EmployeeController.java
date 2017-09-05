@@ -30,7 +30,7 @@ public class EmployeeController {
         try {
             service.migrateFromDepAtoDepB(departments.get(0), departments.get(1));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("changeDepartment", e);
         }
     }
 
@@ -66,5 +66,19 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
         baseCRUDController.deleteById(id, "getEmployeeById");
+    }
+
+    @RequestMapping(value = "/dep/{id}", method = RequestMethod.GET)
+    List getEmployeesFromDepartment(@PathVariable Long id) {
+        try {
+            return service.getEmployeesFromDepartment(id, getAll());
+        } catch (SQLException e) {
+            log.error("getEmployeesFromDepartment", e);
+            return null;
+        }
+    }
+
+    public EmployeeService getService() {
+        return service;
     }
 }

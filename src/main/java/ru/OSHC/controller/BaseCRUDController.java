@@ -1,5 +1,6 @@
 package ru.OSHC.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class BaseCRUDController<T> {
+    private static final Logger log = Logger.getLogger(BaseCRUDController.class);
 
     private BaseService<T> service;
 
@@ -20,6 +22,7 @@ public class BaseCRUDController<T> {
         try {
             return service.getById(id, namedHQL);
         } catch (SQLException e) {
+            log.error("getById", e);
             return null;
         }
     }
@@ -28,6 +31,7 @@ public class BaseCRUDController<T> {
         try {
             service.removeById(id, namedHQL);
         } catch (SQLException e) {
+            log.error("deleteById", e);
             e.printStackTrace();
         }
     }
@@ -36,6 +40,7 @@ public class BaseCRUDController<T> {
         try {
             return service.getAll(namedHQL);
         } catch (SQLException e) {
+            log.error("getList", e);
             return null;
         }
     }
@@ -46,7 +51,7 @@ public class BaseCRUDController<T> {
         try {
             service.add(obj);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("add", e);
         }
     }
 
@@ -56,7 +61,7 @@ public class BaseCRUDController<T> {
         try {
             service.remove(obj);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("remove", e);
         }
     }
 
@@ -66,7 +71,7 @@ public class BaseCRUDController<T> {
         try {
             service.update(obj);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("update", e);
         }
     }
 
