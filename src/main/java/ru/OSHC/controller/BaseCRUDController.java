@@ -1,5 +1,6 @@
 package ru.OSHC.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.service.BaseService;
@@ -7,9 +8,13 @@ import ru.OSHC.service.BaseService;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class BaseCRUDController<T> {
+public class BaseCRUDController<T> {
 
     private BaseService<T> service;
+
+    public BaseCRUDController(BaseService<T> service) {
+        this.service = service;
+    }
 
     T getById(Long id, String namedHQL) {
         try {

@@ -1,5 +1,8 @@
 package ru.OSHC.entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -23,9 +26,11 @@ import java.util.Date;
         )
 })
 
+
 @Entity
 @Table
 public class Employee {
+
     @Id
     private long id;
 
@@ -46,18 +51,22 @@ public class Employee {
     private int salary;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
     private Post postId;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
     private Grade gradeId;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
     private Department departmentId ;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
     private Certificate certificateId;
 

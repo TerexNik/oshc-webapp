@@ -3,6 +3,7 @@ package ru.OSHC.service;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import ru.OSHC.dao.BaseDAO;
+import ru.OSHC.entity.Employee;
 import ru.OSHC.util.SessionUtil;
 
 import java.sql.SQLException;

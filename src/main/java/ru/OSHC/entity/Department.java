@@ -1,5 +1,9 @@
 package ru.OSHC.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 
 @NamedQueries({
@@ -19,19 +23,25 @@ import javax.persistence.*;
         )
 })
 
+
+
 @Entity
 @Table
 public class Department {
+
     @Id
     private long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private Long headEmployeeId;
+    @JsonIgnore
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Employee headEmployeeId;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
     private Department parentDepartment;
 
@@ -51,12 +61,20 @@ public class Department {
         this.name = name;
     }
 
-    public Long getHeadEmployeeId() {
+    public Employee getHeadEmployeeId() {
         return headEmployeeId;
     }
 
-    public void setHeadEmployeeId(Long headEmployeeId) {
+    public void setHeadEmployeeId(Employee headEmployeeId) {
         this.headEmployeeId = headEmployeeId;
+    }
+
+    public Department getParentDepartment() {
+        return parentDepartment;
+    }
+
+    public void setParentDepartment(Department parentDepartment) {
+        this.parentDepartment = parentDepartment;
     }
 
     @Override
@@ -64,7 +82,8 @@ public class Department {
         return "Department{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", employeeId=" + headEmployeeId +
+                ", headEmployeeId=" + headEmployeeId +
+                ", parentDepartment=" + parentDepartment +
                 '}';
     }
 }
