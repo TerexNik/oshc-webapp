@@ -4,54 +4,54 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.OSHC.entity.Certificate;
-import ru.OSHC.service.CertificateService;
+import ru.OSHC.entity.Scan;
+import ru.OSHC.service.ScanService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/certificates")
-public class CertificateController {
+@RequestMapping("/scans")
+public class ScanController {
     private static final Logger log = Logger.getLogger(CertificateController.class);
-    private BaseCRUDController<Certificate> baseCRUDController;
+    private BaseCRUDController<Scan> baseCRUDController;
 
     @Autowired
-    public CertificateController(CertificateService certificateService) {
-        baseCRUDController = new BaseCRUDController<Certificate>(certificateService);
+    public ScanController(ScanService scanService) {
+        baseCRUDController = new BaseCRUDController<Scan>(scanService);
     }
 
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void addCertificate(@RequestBody Certificate certificate) {
-        baseCRUDController.add(certificate);
+    void addScan(@RequestBody Scan scan) {
+        baseCRUDController.add(scan);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@RequestBody Certificate certificate) {
-        baseCRUDController.update(certificate);
+    void update(@RequestBody Scan scan) {
+        baseCRUDController.update(scan);
     }
 
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     List getWithNames() {
-        return baseCRUDController.getList("getCertificatesWithNames");
+        return baseCRUDController.getList("getScans");
     }
 
     @RequestMapping(method = RequestMethod.GET)
     List getAll(){
-        return baseCRUDController.getList("getCertificateList");
+        return baseCRUDController.getList("getScansList");
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Certificate getById(@PathVariable Long id) {
-        return baseCRUDController.getById(id, "getCertificateById");
+    Scan getById(@PathVariable Long id) {
+        return baseCRUDController.getById(id, "getScanById");
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        baseCRUDController.deleteById(id, "getCertificateById");
+        baseCRUDController.deleteById(id, "getScanById");
     }
 }

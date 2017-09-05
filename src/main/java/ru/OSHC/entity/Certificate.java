@@ -13,6 +13,10 @@ import java.util.Date;
         @NamedQuery(
                 name = "getCertificateById",
                 query = "from Certificate c where c.id = :id"
+        ),
+        @NamedQuery(
+                name = "getCertificateList",
+                query = "from Certificate"
         )
 })
 
