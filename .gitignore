@@ -76,6 +76,7 @@ buildNumber.properties
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
+.OSHCGroupProject.iml
 
 # CMake
 cmake-build-debug/
