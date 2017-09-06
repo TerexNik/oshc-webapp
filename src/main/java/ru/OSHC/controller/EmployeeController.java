@@ -30,7 +30,7 @@ public class EmployeeController {
         try {
             service.migrateFromDepAtoDepB(departments.get(0), departments.get(1));
         } catch (SQLException e) {
-            log.error("changeDepartment", e);
+            log.error("change-department", e);
         }
     }
 
