@@ -25,7 +25,7 @@ public class EmployeeController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/changeDepartment", method = RequestMethod.PUT)
+    @RequestMapping(value = "/change-department", method = RequestMethod.PUT)
     void changeDepartment(@RequestBody List<Department> departments) {
         try {
             service.migrateFromDepAtoDepB(departments.get(0), departments.get(1));
