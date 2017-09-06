@@ -1,14 +1,15 @@
 package ru.OSHC.entity;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.Arrays;
 
 @NamedQueries({
     @NamedQuery(
             name = "getScans",
-            query = "select s.id, s.scan " +
-                    "from Scan  s " +
-                    "inner join Certificate as c on s.id = c.scanId "
+            query = "select s.id, s.scanFile " +
+                    "from Certificate c " +
+                    "inner join Scan as s on s.id = c.scanId"
     ),
         @NamedQuery(
                 name = "getScanById",
@@ -27,7 +28,7 @@ public class Scan {
     private long id;
 
     @Column
-    private byte[] scan;
+    private long scanFile;
 
     public long getId() {
         return id;
@@ -37,19 +38,19 @@ public class Scan {
         this.id = id;
     }
 
-    public byte[] getScan() {
-        return scan;
+    public long getScan() {
+        return scanFile;
     }
 
-    public void setScan(byte[] scan) {
-        this.scan = scan;
+    public void setScan(long scan) {
+        this.scanFile = scan;
     }
 
     @Override
     public String toString() {
         return "Scan{" +
                 "id=" + id +
-                ", scan=" + Arrays.toString(scan) +
+                ", scan=" + scanFile +
                 '}';
     }
 }

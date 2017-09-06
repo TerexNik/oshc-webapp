@@ -69,7 +69,6 @@ public class Employee {
     @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
     private Certificate certificateId;
-
     public long getId() {
         return id;
     }
@@ -148,6 +147,10 @@ public class Employee {
 
     public void setCertificateId(Certificate certificateId) {
         this.certificateId = certificateId;
+    }
+
+    public Employee(String name1) {
+        this.name = name1;
     }
 
     @Override

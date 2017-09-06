@@ -1,14 +1,18 @@
 package ru.OSHC.entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @NamedQueries({
         @NamedQuery(
                 name = "getCertificatesWithNames",
-                query = "select c.id, c.certDate, c.company, c.certDate, c.certNumber, s.scan " +
+                query = "select c.id, c.certDate, c.company, c.certName, c.certNumber, s.scanFile " +
                         "from  Certificate c " +
-                        "inner join Scan as s on c.scanId = s.id "
+                        "inner join Scan as s on c.scanId = s.id"
         ),
         @NamedQuery(
                 name = "getCertificateById",
@@ -24,6 +28,9 @@ import java.util.Date;
 @Table
 public class Certificate {
     @Id
+//    @Column(name = "ID")
+//    @GenericGenerator(name = "db-uuid", strategy = "guid")
+//    @GeneratedValue(generator="db-uuid")
     private long id;
 
     @Column
@@ -40,6 +47,7 @@ public class Certificate {
     private long certNumber;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
     private Scan scanId;
 
