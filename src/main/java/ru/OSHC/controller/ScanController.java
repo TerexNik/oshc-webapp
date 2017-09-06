@@ -51,7 +51,7 @@ public class ScanController {
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) {
+    void deleteById(@PathVariable long id) {
         baseCRUDController.deleteById(id, "getScanById");
     }
 }
