@@ -16,7 +16,7 @@ import java.util.List;
 public class DepartmentController {
     private static final Logger log = Logger.getLogger(DepartmentController.class);
     private BaseCRUDController<Department> baseCRUDController;
-    DepartmentService service;
+    private DepartmentService service;
 
     @Autowired
     public DepartmentController(DepartmentService departmentService) {
@@ -36,11 +36,6 @@ public class DepartmentController {
         baseCRUDController.update(department);
     }
 
-    @RequestMapping(value = "/clear", method = RequestMethod.GET)
-    List getWithNames() {
-        return baseCRUDController.getList("getDepartmentWithNames");
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     List getAll(){
         return baseCRUDController.getList("getDepartmentList");
@@ -49,7 +44,7 @@ public class DepartmentController {
     @RequestMapping(value = "/get/{id}/sub-departments", method = RequestMethod.GET)
     List getSubDepartments(@PathVariable long id) {
         try {
-            return service.getSubDepartments(id, getAll());
+            return service.getSubDepartments(id);
         } catch (SQLException e) {
             log.error("getSubDepartments", e);
             return null;
@@ -64,7 +59,11 @@ public class DepartmentController {
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        baseCRUDController.deleteById(id, "getDepartmentById");
+        try {
+            service.deleteById(id);
+        } catch (SQLException e) {
+            log.error("deleteById", e);
+        }
     }
 
 }
