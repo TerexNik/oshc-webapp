@@ -12,7 +12,7 @@ import java.util.Date;
                 name = "getCertificatesWithNames",
                 query = "select c.id, c.certDate, c.company, c.certName, c.certNumber, s.scanFile " +
                         "from  Certificate c " +
-                        "inner join Scan as s on c.scanId = s.id"
+                        "inner join Scan as s on c.scan = s.id "
         ),
         @NamedQuery(
                 name = "getCertificateById",
@@ -49,7 +49,7 @@ public class Certificate {
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @PrimaryKeyJoinColumn
-    private Scan scanId;
+    private Scan scan;
 
     public long getId() {
         return id;
@@ -91,23 +91,23 @@ public class Certificate {
         this.certNumber = certNumber;
     }
 
-    public Scan getScanId() {
-        return scanId;
+    public Scan getScan() {
+        return scan;
     }
 
-    public void setScanId(Scan scanId) {
-        this.scanId = scanId;
+    public void setScan(Scan scanId) {
+        this.scan = scanId;
     }
 
     @Override
     public String toString() {
         return "Certificate{" +
                 "id=" + id +
-                ", date=" + certDate +
+                ", certDate=" + certDate +
                 ", company='" + company + '\'' +
                 ", certName='" + certName + '\'' +
                 ", certNumber=" + certNumber +
-                ", scanId=" + scanId +
+                ", scan=" + scan +
                 '}';
     }
 }

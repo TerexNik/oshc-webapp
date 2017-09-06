@@ -1,8 +1,5 @@
 package ru.OSHC.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +16,12 @@ import java.util.List;
 public class DepartmentController {
     private static final Logger log = Logger.getLogger(DepartmentController.class);
     private BaseCRUDController<Department> baseCRUDController;
+    DepartmentService service;
 
     @Autowired
     public DepartmentController(DepartmentService departmentService) {
         baseCRUDController = new BaseCRUDController<Department>(departmentService);
+        service = departmentService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -45,6 +44,16 @@ public class DepartmentController {
     @RequestMapping(method = RequestMethod.GET)
     List getAll(){
         return baseCRUDController.getList("getDepartmentList");
+    }
+
+    @RequestMapping(value = "/get/{id}/sub-departments", method = RequestMethod.GET)
+    List getSubDepartments(@PathVariable long id) {
+        try {
+            return service.getSubDepartments(id, getAll());
+        } catch (SQLException e) {
+            log.error("getSubDepartments", e);
+            return null;
+        }
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)

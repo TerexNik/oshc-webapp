@@ -7,6 +7,7 @@ import ru.OSHC.entity.Department;
 import ru.OSHC.entity.Employee;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,11 +18,21 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         openTransactionSession();
         Session session = getSession();
         for (Employee e : employees) {
-            if (e.getDepartmentId().getId() == from.getId()) {
-                e.setDepartmentId(to);
+            if (e.getDepartment().getId() == from.getId()) {
+                e.setDepartment(to);
                 session.update(e);
             }
         }
         closeTransactionSession();
+    }
+
+    public List<Employee> getEmployeesFromDepartment(Long id, List<Employee> employees) throws SQLException{
+        List<Employee> result = new ArrayList<Employee>();
+        for (Employee e: employees) {
+            if (e.getDepartment().getId() == id) {
+                result.add(e);
+            }
+        }
+        return result;
     }
 }

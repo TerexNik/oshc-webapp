@@ -7,7 +7,7 @@ import javax.persistence.*;
                 name = "getPostsWithNames",
                 query = "select p.name, e.name, e.surname" +
                         " from Employee e" +
-                        " left join Post p on p.id = e.postId"
+                        " left join Post p on p.id = e.post.id"
         ),
         @NamedQuery(
                 name = "getPostsList",
