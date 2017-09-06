@@ -19,6 +19,10 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.2.4.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.2.4.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-test:4.2.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:4.2.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:4.2.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.webflow:spring-webflow:2.4.4.RELEASE" />
           <element id="library" level="project" name="Maven: opensymphony:ognl:2.6.11" />
           <element id="library" level="project" name="Maven: org.springframework.webflow:spring-binding:2.4.4.RELEASE" />

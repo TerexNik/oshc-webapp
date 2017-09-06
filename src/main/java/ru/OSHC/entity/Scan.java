@@ -8,7 +8,7 @@ import java.util.Arrays;
             name = "getScans",
             query = "select s.id, s.scan " +
                     "from Scan  s " +
-                    "inner join Certificate as c on s.id = c.scanId "
+                    "inner join Certificate as c on s.id = c.scan "
     ),
         @NamedQuery(
                 name = "getScanById",

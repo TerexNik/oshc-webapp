@@ -16,7 +16,7 @@ import java.util.List;
 public class DepartmentController {
     private static final Logger log = Logger.getLogger(DepartmentController.class);
     private BaseCRUDController<Department> baseCRUDController;
-    private DepartmentService service;
+    DepartmentService service;
 
     @Autowired
     public DepartmentController(DepartmentService departmentService) {
@@ -46,12 +46,12 @@ public class DepartmentController {
         return baseCRUDController.getList("getDepartmentList");
     }
 
-    @RequestMapping(value = "/get/{id}/employees", method = RequestMethod.GET)
-    List getEmployeesFromDepartment(@PathVariable Long id) {
+    @RequestMapping(value = "/get/{id}/sub-departments", method = RequestMethod.GET)
+    List getSubDepartments(@PathVariable long id) {
         try {
-            return service.getEmployeesFromDepartment(id);
+            return service.getSubDepartments(id, getAll());
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getSubDepartments", e);
             return null;
         }
     }

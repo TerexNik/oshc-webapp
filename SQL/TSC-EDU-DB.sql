@@ -6,7 +6,7 @@ create table CERTIFICATE
 	CERTNAME VARCHAR2(255 char),
 	CERTNUMBER NUMBER(19),
 	COMPANY VARCHAR2(255 char),
-	SCANID_ID NUMBER(19)
+	SCAN_ID NUMBER(19)
 )
 /
 
@@ -14,7 +14,7 @@ create table DEPARTMENT
 (
 	ID NUMBER(19) not null
 		primary key,
-	HEADEMPLOYEEID NUMBER(19),
+	HEADEMPLOYEE_ID NUMBER(19),
 	NAME VARCHAR2(255 char) not null,
 	PARENTDEPARTMENT_ID NUMBER(19)
 		constraint FK3R5ADEO60VGTIE3ISAOJ3J91X
@@ -31,14 +31,14 @@ create table EMPLOYEE
 	NAME VARCHAR2(255 char) not null,
 	SALARY NUMBER(10) not null,
 	SURNAME VARCHAR2(255 char) not null,
-	CERTIFICATEID_ID NUMBER(19)
-		constraint FKEXNC9S72SKJTW51UA7M2WWIHP
+	CERTIFICATE_ID NUMBER(19)
+		constraint FK4F2UCRGK8X9WTPDS24LGL29OE
 		references CERTIFICATE,
-	DEPARTMENTID_ID NUMBER(19)
-		constraint FKNPQROCH3547CWR52EEC1SEBS0
+	DEPARTMENT_ID NUMBER(19)
+		constraint FK14TIJXQRY9ML17NK86SQFP561
 		references DEPARTMENT,
-	GRADEID_ID NUMBER(19),
-	POSTID_ID NUMBER(19)
+	GRADE_ID NUMBER(19),
+	POST_ID NUMBER(19)
 )
 /
 
@@ -51,8 +51,8 @@ create table GRADE
 /
 
 alter table EMPLOYEE
-	add constraint FK1Y85UPW2YCSBFG3KFTY8D9ELG
-foreign key (GRADEID_ID) references GRADE
+	add constraint FK1OQ620LAP9D06BH3GNIK89458
+foreign key (GRADE_ID) references GRADE
 /
 
 create table POST
@@ -64,8 +64,8 @@ create table POST
 /
 
 alter table EMPLOYEE
-	add constraint FK6FO3WH5D42XI8CEISMWO6NC45
-foreign key (POSTID_ID) references POST
+	add constraint FK5DIOK5AM3DJIFY07Q7CNG480C
+foreign key (POST_ID) references POST
 /
 
 create table SCAN
@@ -77,7 +77,7 @@ create table SCAN
 /
 
 alter table CERTIFICATE
-	add constraint FKNSTY3RXAR46P7O4BFLPDYPYYD
-foreign key (SCANID_ID) references SCAN
+	add constraint FKJB3WT91SO91BNUE474IV9EMVU
+foreign key (SCAN_ID) references SCAN
 /
 
