@@ -1,12 +1,14 @@
 package ru.OSHC.controller;
 
 import org.apache.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Department;
 import ru.OSHC.service.DepartmentService;
 
+import javax.persistence.NoResultException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -63,6 +65,10 @@ public class DepartmentController {
             service.deleteById(id);
         } catch (SQLException e) {
             log.error("deleteById", e);
+        } catch (ConstraintViolationException e) {
+            log.error("remove CVEx", e);
+        } catch (NoResultException e) {
+            log.error("remove NREx", e);
         }
     }
 

@@ -18,5 +18,6 @@
         <mapping class="ru.OSHC.entity.Post"/>
         <mapping class="ru.OSHC.entity.Grade"/>
         <mapping class="ru.OSHC.entity.Scan"/>
+        <mapping class="ru.OSHC.entity.History"/>
     </session-factory>
 </hibernate-configuration>

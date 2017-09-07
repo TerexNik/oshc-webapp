@@ -22,7 +22,7 @@ import java.util.Date;
         ),
         @NamedQuery(
                 name = "getEmployeesDepartmentId",
-                query = "select e.name, e.surname, e.fatherName, e.salary, e.birthDate, e.post.name, e.grade.name" +
+                query = "select e.name, e.surname, e.patronymic, e.salary, e.birthDate, e.post.name, e.grade.name" +
                         " from Employee e" +
                         " where e.department.id = :id"
         ),
@@ -47,7 +47,7 @@ public class Employee {
     private String surname;
 
     @Column
-    private String fatherName;
+    private String patronymic;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -100,12 +100,12 @@ public class Employee {
         this.surname = surname;
     }
 
-    public String getFatherName() {
-        return fatherName;
+    public String getPatronymic() {
+        return patronymic;
     }
 
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
     }
 
     public Date getBirthDate() {
@@ -128,32 +128,32 @@ public class Employee {
         return post;
     }
 
-    public void setPost(Post postId) {
-        this.post = postId;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public Grade getGrade() {
         return grade;
     }
 
-    public void setGrade(Grade gradeId) {
-        this.grade = gradeId;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
     public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department departmentId) {
-        this.department = departmentId;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Certificate getCertificate() {
         return certificate;
     }
 
-    public void setCertificate(Certificate certificateId) {
-        this.certificate = certificateId;
+    public void setCertificate(Certificate certificate) {
+        this.certificate = certificate;
     }
 
     @Override
@@ -162,7 +162,7 @@ public class Employee {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", fatherName='" + fatherName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +
                 ", post=" + post +

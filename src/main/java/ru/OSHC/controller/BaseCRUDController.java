@@ -1,6 +1,7 @@
 package ru.OSHC.controller;
 
 import org.apache.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,22 +47,24 @@ public class BaseCRUDController<T> {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "Success add")
     void add(@RequestBody T obj) {
         try {
             service.add(obj);
         } catch (SQLException e) {
-            log.error("add", e);
+                    log.error("add", e);
         }
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "Success delete")
     void remove(@RequestBody T obj) {
         try {
             service.remove(obj);
         } catch (SQLException e) {
-            log.error("remove", e);
+            log.error("remove SQLEx", e);
+        } catch (ConstraintViolationException e) {
+            log.error("remove CVEx", e);
         }
     }
 
@@ -74,6 +77,8 @@ public class BaseCRUDController<T> {
             log.error("update", e);
         }
     }
+
+
 
     void setService(BaseService<T> service) {
         this.service = service;
