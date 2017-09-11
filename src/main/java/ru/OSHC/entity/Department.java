@@ -29,7 +29,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table
+@Table(name = "DEPARTMENTS")
 public class Department {
 
     @Id
@@ -38,7 +38,7 @@ public class Department {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "HEADEMPLOYEE_ID")
+    @Column(name = "EMPLOYEE_ID")
     private Long headEmployee;
 
     @ManyToOne

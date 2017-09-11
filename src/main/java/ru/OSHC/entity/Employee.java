@@ -2,14 +2,17 @@ package ru.OSHC.entity;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @NamedQueries({
         @NamedQuery(
                 name = "getEmployeeWithNames",
-                query = "select e.id, e.name, e.surname, e.birthDate, e.salary, d.name, p.name, g.name, c.certName " +
+                query = "select e.id, e.name, e.surname, e.birthDate, e.salary, e.histID, e.isActive, e.startDate, " +
+                        " e.endDate, d.name, p.name, g.name, c.certName " +
                         "from  Employee as e " +
                         "inner join Department d on e.department.id = d.id " +
                         "inner join Post as p on e.post.id = p.id " +
@@ -17,12 +20,17 @@ import java.util.Date;
                         "inner join Certificate as c on e.certificate.id = c.id or e.certificate is null"
         ),
         @NamedQuery(
+                name = "getEmployeeByHistId",
+                query = "from Employee e where e.histID = :id"
+        ),
+        @NamedQuery(
                 name = "getEmployeeById",
                 query = "from Employee e where e.id = :id"
         ),
         @NamedQuery(
                 name = "getEmployeesDepartmentId",
-                query = "select e.name, e.surname, e.fatherName, e.salary, e.birthDate, e.post.name, e.grade.name" +
+                query = "select e.name, e.surname, e.patronymic, e.salary, e.birthDate,  e.histID, e.isActive, " +
+                        "e.startDate, e.endDate, e.post.name, e.grade.name" +
                         " from Employee e" +
                         " where e.department.id = :id"
         ),
@@ -34,10 +42,12 @@ import java.util.Date;
 
 
 @Entity
-@Table
+@Table(name = "EMPLOYEES")
 public class Employee {
 
     @Id
+    @GenericGenerator(name = "db-uuid", strategy = "guid")
+    @GeneratedValue(generator="db-uuid")
     private long id;
 
     @Column(nullable = false)
@@ -47,7 +57,21 @@ public class Employee {
     private String surname;
 
     @Column
-    private String fatherName;
+    private String patronymic;
+
+    @Column(name = "HIST_ID")
+    private long histID;
+
+    @Column(name = "IS_ACTIVE")
+    private boolean isActive;
+
+    @Column(name = "START_DATE", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @Column(name = "END_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -76,6 +100,9 @@ public class Employee {
     @PrimaryKeyJoinColumn
     private Certificate certificate;
 
+    public Employee() {
+    }
+
     public long getId() {
         return id;
     }
@@ -100,12 +127,12 @@ public class Employee {
         this.surname = surname;
     }
 
-    public String getFatherName() {
-        return fatherName;
+    public String getPatronymic() {
+        return patronymic;
     }
 
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
     }
 
     public Date getBirthDate() {
@@ -122,6 +149,38 @@ public class Employee {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public long getHistID() {
+        return histID;
+    }
+
+    public void setHistID(long histID) {
+        this.histID = histID;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Post getPost() {
@@ -166,7 +225,7 @@ public class Employee {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", fatherName='" + fatherName + '\'' +
+                ", fatherName='" + patronymic + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +
                 ", post=" + post +

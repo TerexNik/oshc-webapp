@@ -20,7 +20,7 @@ import javax.persistence.*;
 })
 
 @Entity
-@Table
+@Table(name = "POSTS")
 public class Post {
     @Id
     private long id;

@@ -68,8 +68,13 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Employee getEmployeeById(@PathVariable Long id) {
-        return baseCRUDController.getById(id, "getEmployeeById");
+    Employee getEmployeeByHistId(@PathVariable Long id) {
+        return baseCRUDController.getById(id, "getEmployeeByHistId");
+    }
+
+    @RequestMapping(value = "/get/active/{id}", method = RequestMethod.GET)
+    Employee getActiveEmployeeByHistId(@PathVariable Long id) {
+        return baseCRUDController.getById(id, "getEmployeeByHistId");
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)

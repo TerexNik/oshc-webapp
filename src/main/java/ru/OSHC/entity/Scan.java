@@ -22,13 +22,13 @@ import java.util.Arrays;
 })
 
 @Entity
-@Table
+@Table(name = "SCANS")
 public class Scan {
     @Id
     private long id;
 
-    @Column
-    private long scanFile;
+    @Column(name = "SCAN")
+    private Long scanFile;
 
     public long getId() {
         return id;
@@ -38,11 +38,11 @@ public class Scan {
         this.id = id;
     }
 
-    public long getScan() {
+    public Long getScan() {
         return scanFile;
     }
 
-    public void setScan(long scan) {
+    public void setScan(Long scan) {
         this.scanFile = scan;
     }
 

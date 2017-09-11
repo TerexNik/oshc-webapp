@@ -1,6 +1,7 @@
 package ru.OSHC.service;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import ru.OSHC.dao.EmployeeDAO;
 import ru.OSHC.entity.Department;
@@ -45,5 +46,15 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
             }
         }
         return result;
+    }
+
+    public Employee getActiveEmployeeById(Long id, List<Employee> employees) throws SQLException {
+        Employee employee = new Employee();
+        for (Employee e : employees) {
+            if (e.isActive() == true) {
+                employee = e;
+            }
+        }
+        return employee;
     }
 }

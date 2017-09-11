@@ -1,4 +1,4 @@
-create table CERTIFICATE
+create table CERTIFICATES
 (
 	ID NUMBER(19) not null
 		primary key,
@@ -10,39 +10,49 @@ create table CERTIFICATE
 )
 /
 
-create table DEPARTMENT
+create table DEPARTMENTS
 (
 	ID NUMBER(19) not null
 		primary key,
-	HEADEMPLOYEE_ID NUMBER(19),
+	LEADER NUMBER(19),
 	NAME VARCHAR2(255 char) not null,
 	PARENTDEPARTMENT_ID NUMBER(19)
 		constraint FK3R5ADEO60VGTIE3ISAOJ3J91X
-		references DEPARTMENT
+		references DEPARTMENTS
 )
 /
 
-create table EMPLOYEE
+create table EMPLOYEES
 (
 	ID NUMBER(19) not null
 		primary key,
 	BIRTHDATE DATE not null,
-	FATHERNAME VARCHAR2(255 char),
+	PATRONYMIC VARCHAR2(255 char),
 	NAME VARCHAR2(255 char) not null,
 	SALARY NUMBER(10) not null,
 	SURNAME VARCHAR2(255 char) not null,
+	HIST_ID NUMBER(19) not null,
+	IS_ACTIVE NUMBER(1) not null,
+	START_DATE DATE not null,
+	END_DATE DATE,
 	CERTIFICATE_ID NUMBER(19)
 		constraint FK4F2UCRGK8X9WTPDS24LGL29OE
-		references CERTIFICATE,
+		references CERTIFICATES,
 	DEPARTMENT_ID NUMBER(19)
 		constraint FK14TIJXQRY9ML17NK86SQFP561
-		references DEPARTMENT,
+		references DEPARTMENTS,
 	GRADE_ID NUMBER(19),
 	POST_ID NUMBER(19)
 )
+
 /
 
-create table GRADE
+alter table EMPLOYEES
+	add constraint FK1OQ620LAP9D06UE3GNIK89458
+foreign key (GRADE_ID) references GRADES
+/
+
+create table GRADES
 (
 	ID NUMBER(19) not null
 		primary key,
@@ -50,12 +60,12 @@ create table GRADE
 )
 /
 
-alter table EMPLOYEE
+alter table EMPLOYEES
 	add constraint FK1OQ620LAP9D06BH3GNIK89458
-foreign key (GRADE_ID) references GRADE
+foreign key (GRADE_ID) references GRADES
 /
 
-create table POST
+create table POSTS
 (
 	ID NUMBER(19) not null
 		primary key,
@@ -63,12 +73,12 @@ create table POST
 )
 /
 
-alter table EMPLOYEE
+alter table EMPLOYEES
 	add constraint FK5DIOK5AM3DJIFY07Q7CNG480C
-foreign key (POST_ID) references POST
+foreign key (POST_ID) references POSTS
 /
 
-create table SCAN
+create table SCANS
 (
 	ID NUMBER(19) not null
 		primary key,
@@ -76,8 +86,8 @@ create table SCAN
 )
 /
 
-alter table CERTIFICATE
+alter table CERTIFICATES
 	add constraint FKJB3WT91SO91BNUE474IV9EMVU
-foreign key (SCAN_ID) references SCAN
+foreign key (SCAN_ID) references SCANS
 /
 

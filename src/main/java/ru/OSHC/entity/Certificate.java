@@ -25,7 +25,7 @@ import java.util.Date;
 })
 
 @Entity
-@Table
+@Table(name = "CERTIFICATES")
 public class Certificate {
     @Id
 //    @Column(name = "ID")

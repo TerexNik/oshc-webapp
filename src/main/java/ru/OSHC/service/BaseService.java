@@ -15,7 +15,7 @@ public abstract class BaseService<T> extends SessionUtil implements BaseDAO<T> {
         openTransactionSession();
         Session session = getSession();
         Query query =session.createNamedQuery(namedQuerry);
-        query.setParameter("id",(long) id);
+        query.setParameter("id", id);
         T obj = (T) query.getSingleResult();
         closeTransactionSession();
         return obj;

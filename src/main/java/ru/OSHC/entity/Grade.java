@@ -21,7 +21,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table
+@Table(name = "GRADES")
 public class Grade {
     @Id
     private long id;
