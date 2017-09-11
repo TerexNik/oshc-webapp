@@ -26,6 +26,17 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         closeTransactionSession();
     }
 
+    public void employeeMigrateFromDepAtoDepB(long id, Department from, Department to) throws SQLException {
+        Employee employee = getById(id,"getEmployeeById");
+        openTransactionSession();
+        Session session = getSession();
+            if (employee.getDepartment().getId() == from.getId()) {
+                employee.setDepartment(to);
+                session.update(employee);
+            }
+        closeTransactionSession();
+        }
+
     public List<Employee> getEmployeesFromDepartment(Long id, List<Employee> employees) throws SQLException{
         List<Employee> result = new ArrayList<Employee>();
         for (Employee e: employees) {

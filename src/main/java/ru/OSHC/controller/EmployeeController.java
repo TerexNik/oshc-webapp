@@ -34,6 +34,16 @@ public class EmployeeController {
         }
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/changeDepartmentEmployee", method = RequestMethod.PUT)
+    void changeDepartmentEmployee(@RequestBody List<Department> departments, Employee employee) {
+        try {
+            service.employeeMigrateFromDepAtoDepB(employee.getId(), departments.get(0), departments.get(1));
+        } catch (SQLException e) {
+            log.error("changeDepartmentEmployee", e);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addDepartment(@RequestBody Employee employee) {
