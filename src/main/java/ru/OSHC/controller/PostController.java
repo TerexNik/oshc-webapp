@@ -10,6 +10,9 @@ import ru.OSHC.service.PostService;
 
 import java.util.List;
 
+/**
+ * Контроллер поста
+ */
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -22,33 +25,49 @@ public class PostController {
         baseCRUDController = new BaseCRUDController<Post>(postService);
     }
 
+    /**
+     * Добавление нового поста.
+     * @param post - пост
+     */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addPost(@RequestBody Post post) {
         baseCRUDController.add(post);
     }
 
+    /**
+     * Изменение данных о посте
+     * @param post - пост
+     */
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Post post) {
         baseCRUDController.update(post);
     }
 
-    @RequestMapping(value = "/getClear", method = RequestMethod.GET)
-    List getWithNames() {
-        return baseCRUDController.getList("getPostsWithNames");
-    }
-
+    /**
+     * Получение списка всех постов
+     * @return возвращает список всех постов
+     */
     @RequestMapping(method = RequestMethod.GET)
     List getAll() {
         return baseCRUDController.getList("getPostsList");
     }
 
+    /**
+     * Получение информации о посте с идентификатором {@link Post#id}
+     * @param id - идентификатор поста
+     * @return возвращает выбранный пост
+     */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Post getPostById(@PathVariable Long id) {
         return baseCRUDController.getById(id, "getPostById");
     }
 
+    /**
+     * Удаление поста с выбранным идентификатором {@link Post#id}
+     * @param id - идентификатор поста
+     */
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {

@@ -9,6 +9,9 @@ import ru.OSHC.service.GradeService;
 
 import java.util.List;
 
+/**
+ * Контроллер грейда
+ */
 @RestController
 @RequestMapping("/grades")
 public class GradeController {
@@ -21,33 +24,49 @@ public class GradeController {
         baseCRUDController = new BaseCRUDController<Grade>(gradeService);
     }
 
+    /**
+     * Добавление нового грейда.
+     * @param grade - грейд
+     */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addGrade(@RequestBody Grade grade) {
         baseCRUDController.add(grade);
     }
 
+    /**
+     * Изменение данных о грейде
+     * @param grade - грейд
+     */
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Grade grade) {
         baseCRUDController.update(grade);
     }
 
-    @RequestMapping(value = "/getClear", method = RequestMethod.GET)
-    List getWithNames() {
-        return baseCRUDController.getList("getGradesWithNames");
-    }
-
+    /**
+     * Получение списка грейдов
+     * @return возвращает список всех грейдов
+     */
     @RequestMapping(method = RequestMethod.GET)
     List getAll() {
         return baseCRUDController.getList("getGradesList");
     }
 
+    /**
+     * Получение информации о грейде с идентификатором {@link Grade#id}
+     * @param id - идентификатор грейда
+     * @return возвращает выбранный грейд
+     */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Grade getGradeById(@PathVariable Long id) {
         return baseCRUDController.getById(id, "getGradeById");
     }
 
+    /**
+     * Удаление грейда с выбранным идентификатором {@link Grade#id}
+     * @param id - идентификатор грейда
+     */
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
