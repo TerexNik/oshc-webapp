@@ -34,7 +34,7 @@ public class CertificateController {
         try {
             certificateService.add(certificate);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("addCertificate", e);
         }
     }
 
@@ -48,7 +48,7 @@ public class CertificateController {
         try {
             certificateService.update(certificate);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("updateCertificate", e);
         }
     }
 
@@ -61,7 +61,7 @@ public class CertificateController {
         try {
             return certificateService.getAll("getCertificateList");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getCertificateList", e);
             return null;
         }
     }
@@ -76,7 +76,7 @@ public class CertificateController {
         try {
             return certificateService.getById(id, "getCertificateById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getCertificateById", e);
             return null;
         }
     }
@@ -91,7 +91,7 @@ public class CertificateController {
         try {
             certificateService.removeById(id, "getCertificateById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("deleteCertificateById", e);
         }
     }
 }

@@ -35,7 +35,7 @@ public class GradeController {
         try {
             gradeService.add(grade);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("addGrade", e);
         }
     }
 
@@ -49,7 +49,7 @@ public class GradeController {
         try {
             gradeService.update(grade);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("updateGrade", e);
         }
     }
 
@@ -62,7 +62,7 @@ public class GradeController {
         try {
             return gradeService.getAll("getGradesList");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getGradesList", e);
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class GradeController {
         try {
             return gradeService.getById(id, "getGradeById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getGradeById", e);
             return null;
         }
     }
@@ -92,7 +92,7 @@ public class GradeController {
         try {
             gradeService.removeById(id, "getGradeById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("removeGradeById", e);
         }
     }
 

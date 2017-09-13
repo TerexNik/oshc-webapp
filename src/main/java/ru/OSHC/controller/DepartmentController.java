@@ -36,7 +36,7 @@ public class DepartmentController {
         try {
             departmentService.add(department);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("addDepartment", e);
         }
     }
 
@@ -50,7 +50,7 @@ public class DepartmentController {
         try {
             departmentService.update(department);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("updateDepartment", e);
         }
     }
 
@@ -63,7 +63,7 @@ public class DepartmentController {
         try {
             return departmentService.getAll("getDepartmentList");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getDepartmentList", e);
             return null;
         }
     }
@@ -92,7 +92,7 @@ public class DepartmentController {
         try {
             return departmentService.getById(id, "getDepartmentById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getDepartmentById", e);
             return null;
         }
     }

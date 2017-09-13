@@ -35,7 +35,7 @@ public class PostController {
         try {
             postService.add(post);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("addPost", e);
         }
     }
 
@@ -49,7 +49,7 @@ public class PostController {
         try {
             postService.update(post);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("updatePost", e);
         }
     }
 
@@ -62,7 +62,7 @@ public class PostController {
         try {
             return postService.getAll("getPostsList");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getPostsList", e);
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class PostController {
         try {
             return postService.getById(id, "getPostById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getPostById", e);
             return null;
         }
     }
@@ -92,7 +92,7 @@ public class PostController {
         try {
             postService.removeById(id, "getPostById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("removePostById", e);
         }
     }
 }
