@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Department;
 import ru.OSHC.service.DepartmentService;
@@ -112,8 +113,6 @@ public class DepartmentController {
             log.error("remove CVEx", e);
         } catch (NoResultException e) {
             log.error("remove NREx", e);
-        } catch (NullPointerException e) {
-
         }
     }
 
