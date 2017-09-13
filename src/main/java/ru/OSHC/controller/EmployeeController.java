@@ -29,13 +29,14 @@ public class EmployeeController {
 
     /**
      * Перемещение всех работников одного департамента в другой
-     * @param departments - департаменты
+     * @param from - id департамента из которого переводятся сотрудники
+     * @param to - id департамента в котороый переводятся сотрудники
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/change-department", method = RequestMethod.PUT)
-    void changeDepartment(@RequestBody List<Department> departments) {
+    @RequestMapping(value = "/change-department/{from}-{to}", method = RequestMethod.PUT)
+    void changeDepartment(@PathVariable long from, @PathVariable long to ) {
         try {
-            service.migrateFromDepAtoDepB(departments.get(0), departments.get(1));
+            service.migrateFromDepAtoDepB(from, to);
         } catch (SQLException e) {
             log.error("change-department", e);
         }
@@ -44,13 +45,13 @@ public class EmployeeController {
     /**
      * Изменение грейда у выбранного работника
      * @param newGrade - новый грейд
-     * @param employee - работник у которого требуется изменить грейд
+     * @param id - historyId работника у которого требуется изменить грейд
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/changeGrade", method = RequestMethod.PUT)
-    void changeGrade(@RequestBody Grade newGrade, @RequestBody Employee employee) {
+    @RequestMapping(value = "/changeGrade/{id}", method = RequestMethod.PUT)
+    void changeGrade(@PathVariable long id, @RequestBody Grade newGrade) {
         try {
-            service.migrateToNewGrade(newGrade, employee);
+            service.migrateToNewGrade(id, newGrade);
         } catch (SQLException e) {
             log.error("changeGrade", e);
         }
@@ -59,13 +60,13 @@ public class EmployeeController {
     /**
      * Изменение поста у выбранного работника
      * @param newPost - новый пост
-     * @param employee - работник у которого требуется изменить пост
+     * @param id - historyId работника у которого требуется изменить пост
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/changePost", method = RequestMethod.PUT)
-    void changePost(@RequestBody Post newPost, @RequestBody Employee employee) {
+    void changePost(@PathVariable long id, @RequestBody Post newPost) {
         try {
-            service.migrateToNewPost(newPost, employee);
+            service.migrateToNewPost(id, newPost);
         } catch (SQLException e) {
             log.error("changePost", e);
         }
@@ -161,7 +162,7 @@ public class EmployeeController {
     @RequestMapping(value = "/dep/{id}", method = RequestMethod.GET)
     List getEmployeesFromDepartment(@PathVariable Long id) {
         try {
-            return service.getEmployeesFromDepartment(id, getAll());
+            return service.getEmployeesFromDepartment(id);
         } catch (SQLException e) {
             log.error("getEmployeesFromDepartment", e);
             return null;

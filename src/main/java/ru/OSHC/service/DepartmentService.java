@@ -1,6 +1,7 @@
 package ru.OSHC.service;
 
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.OSHC.entity.Department;
 
@@ -11,6 +12,12 @@ import java.util.List;
 @Service
 public class DepartmentService extends BaseService<Department> {
 
+    private final EmployeeService employeeService;
+
+    @Autowired
+    public DepartmentService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     public List getSubDepartments(long id) throws SQLException {
         List<Department> departments = getAll("getDepartmentList");
@@ -26,6 +33,7 @@ public class DepartmentService extends BaseService<Department> {
     public void deleteById(long id) throws SQLException{
         List<Department> subDepartments = getSubDepartments(id);
         Department department = getById(id, "getDepartmentById");
+        employeeService.clearDepHistory(id);
         openTransactionSession();
         Session session = getSession();
         for (Department d : subDepartments) {

@@ -1,6 +1,7 @@
 package ru.OSHC.service;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import ru.OSHC.dao.EmployeeDAO;
 import ru.OSHC.entity.Department;
@@ -10,66 +11,94 @@ import ru.OSHC.entity.Post;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmployeeService extends BaseService<Employee> implements EmployeeDAO {
 
-    public void migrateFromDepAtoDepB(Department from, Department to) throws SQLException {
-        List<Employee> employees = getAll("getEmployeeList");
+    public void migrateFromDepAtoDepB(long fromId, long toId) throws SQLException {
+        openTransactionSession();
+        Session session = getSession();
+        Department to = session.get(Department.class, toId);
+        closeTransactionSession();
+        List<Employee> employees = getAll("getActiveEmployee");
+        for (Employee e : employees) {
+            if (e.getDepartment().getId() == fromId) {
+                e.setDepartment(to);
+                update(e);
+            }
+        }
+    }
+
+    public List getEmployeesFromDepartment(Long id) throws SQLException {
+        openTransactionSession();
+        Session session = getSession();
+        Query query = session.createNamedQuery("getEmployeesDepartmentId");
+        query.setParameter("id", id);
+        List employees = query.getResultList();
+        closeTransactionSession();
+        return employees;
+    }
+
+    public void clearDepHistory(long id) throws SQLException{
+        List<Employee> employees = getInactive();
         openTransactionSession();
         Session session = getSession();
         for (Employee e : employees) {
-            if (e.getDepartment().getId() == from.getId()) {
-                e.setDepartment(to);
+            if (e.getDepartment().getId() == id) {
+                e.setDepartment(null);
                 session.update(e);
             }
         }
         closeTransactionSession();
     }
 
-    public void migrateToNewGrade(Grade newGrade, Employee employee) throws SQLException {
+    public List getInactive() {
         openTransactionSession();
         Session session = getSession();
-        employee.setGrade(newGrade);
-        session.update(employee);
+        Query query = session.createNamedQuery("getInactiveEmployee");
+        List employees = query.list();
         closeTransactionSession();
-    }
-
-    public void migrateToNewPost(Post newPost, Employee employee) throws SQLException {
-        openTransactionSession();
-        Session session = getSession();
-        employee.setPost(newPost);
-        session.update(employee);
-        closeTransactionSession();
-    }
-
-    public List<Employee> getEmployeesFromDepartment(Long id, List<Employee> employees) throws SQLException {
-        List<Employee> result = new ArrayList<Employee>();
-        for (Employee e : employees) {
-            if (e.getDepartment().getId() == id) {
-                result.add(e);
-            }
-        }
-        return result;
+        return employees;
     }
 
     @Override
     public void add(Employee employee) throws SQLException {
+        if (hasDuplicates(employee.getHistoryId(), "getEmployeeById")) {
+            setEndDateForEmployee(employee.getHistoryId());
+        }
         employee.setStartDate(new Date(System.currentTimeMillis()));
         employee.setActive(true);
         super.add(employee);
     }
 
+
+
     @Override
     public void update(Employee employee) throws SQLException {
-        Employee employeeHist = getById(employee.getHistoryId(), "getEmployeeById");
+        Employee employeeHist = setEndDateForEmployee(employee.getHistoryId());
+        super.update(employeeHist);
+        add(employee);
+    }
+
+    public void migrateToNewGrade(long id, Grade newGrade) throws SQLException {
+        Employee employee = setEndDateForEmployee(id);
+        employee.setGrade(newGrade);
+        add(employee);
+    }
+
+    public void migrateToNewPost(long id, Post post) throws SQLException {
+        Employee employee = setEndDateForEmployee(id);
+        employee.setPost(post);
+        add(employee);
+    }
+
+    public Employee setEndDateForEmployee(long id) throws SQLException {
+        Employee employeeHist = getById(id, "getEmployeeById");
         employeeHist.setActive(false);
         employeeHist.setEndDate(new Date(System.currentTimeMillis()));
         super.update(employeeHist);
-        add(employee);
+        return employeeHist;
     }
 
     @Override
