@@ -82,7 +82,7 @@ public class EmployeeController {
         try {
             service.add(employee);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("addEmployee", e);
         }
     }
 
@@ -96,18 +96,7 @@ public class EmployeeController {
         try {
             service.update(employee);
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @RequestMapping(value = "/clear",method = RequestMethod.GET)
-    List getWithNames() {
-        try {
-            return service.getAll("getEmployeeWithNames");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            log.error("updateEmployee", e);
         }
     }
 
@@ -120,7 +109,7 @@ public class EmployeeController {
         try {
             return service.getAll("getEmployeeList");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getEmployeeList", e);
             return null;
         }
     }
@@ -135,7 +124,7 @@ public class EmployeeController {
         try {
             return service.getById(id, "getEmployeeById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getEmployeeById", e);
             return null;
         }
     }
@@ -150,7 +139,7 @@ public class EmployeeController {
         try {
             service.removeById(id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("deleteEmployeeById", e);
         }
     }
 

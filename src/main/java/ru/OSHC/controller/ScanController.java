@@ -49,7 +49,7 @@ public class ScanController {
         try {
             scanService.update(scan);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("updateScan", e);
         }
     }
 
@@ -62,7 +62,7 @@ public class ScanController {
         try {
             return scanService.getAll("getScansList");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getScansList", e);
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class ScanController {
         try {
             return scanService.getById(id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("getScanById", e);
             return null;
         }
     }
@@ -92,7 +92,7 @@ public class ScanController {
         try {
             scanService.removeById(id, "getScanById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("deleteScanById", e);
         }
     }
 }
