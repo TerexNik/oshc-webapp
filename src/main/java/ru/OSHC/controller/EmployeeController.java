@@ -169,6 +169,16 @@ public class EmployeeController {
         }
     }
 
+    @RequestMapping(value = "/get/part/{letters}" , method = RequestMethod.GET)
+    List getEmployeesNamesByLetters(@PathVariable String letters) {
+        try {
+            return service.getEmployeeByLetters(letters, getAll());
+        } catch (Exception e) {
+            log.error("getEmployeesNamesByChars", e);
+            return  null;
+        }
+    }
+
     public EmployeeService getService() {
         return service;
     }

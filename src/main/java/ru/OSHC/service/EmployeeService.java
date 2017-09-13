@@ -111,4 +111,15 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
     public void removeById(Long id) throws SQLException {
         remove(getById(id, "getEmployeeById"));
     }
+
+    public List<Employee> getEmployeeByLetters (String letters, List<Employee> employees) {
+        List<Employee> result = new ArrayList<Employee>();
+        for (Employee e: employees) {
+            if (e.getName().contains(letters) || e.getSurname().contains(letters)
+                    || (e.getPatronymic() != null && e.getPatronymic().contains(letters))) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
 }
