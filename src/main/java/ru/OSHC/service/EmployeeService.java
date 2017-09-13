@@ -8,7 +8,9 @@ import ru.OSHC.entity.Employee;
 import ru.OSHC.entity.Grade;
 import ru.OSHC.entity.Post;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +54,32 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
             }
         }
         return result;
+    }
+
+    @Override
+    public void add(Employee employee) throws SQLException {
+        employee.setStartDate(new Date(System.currentTimeMillis()));
+        employee.setActive(true);
+        super.add(employee);
+    }
+
+    @Override
+    public void update(Employee employee) throws SQLException {
+        Employee employeeHist = getById(employee.getHistoryId(), "getEmployeeById");
+        employeeHist.setActive(false);
+        employeeHist.setEndDate(new Date(System.currentTimeMillis()));
+        super.update(employeeHist);
+        add(employee);
+    }
+
+    @Override
+    public void remove(Employee employee) throws SQLException {
+        employee.setActive(false);
+        employee.setEndDate(new Date(System.currentTimeMillis()));
+        super.update(employee);
+    }
+
+    public void removeById(Long id) throws SQLException {
+        remove(getById(id, "getEmployeeById"));
     }
 }

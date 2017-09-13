@@ -2,6 +2,7 @@ package ru.OSHC.entity;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,7 +19,7 @@ import java.util.Date;
         ),
         @NamedQuery(
                 name = "getEmployeeById",
-                query = "from Employee e where e.id = :id"
+                query = "from Employee e where e.historyId = :id and isActive = true"
         ),
         @NamedQuery(
                 name = "getEmployeesDepartmentId",
@@ -38,7 +39,12 @@ import java.util.Date;
 public class Employee {
 
     @Id
-    private long id;
+    @GenericGenerator(name = "empl-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "empl-uuid")
+    private String id;
+
+    @Column(nullable = false)
+    private long historyId;
 
     @Column(nullable = false)
     private String name;
@@ -55,6 +61,17 @@ public class Employee {
 
     @Column(nullable = false)
     private int salary;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+
+    @Column
+    private boolean isActive;
 
     @ManyToOne
     @Fetch(FetchMode.JOIN)
@@ -76,12 +93,20 @@ public class Employee {
     @PrimaryKeyJoinColumn
     private Certificate certificate;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public long getHistoryId() {
+        return historyId;
+    }
+
+    public void setHistoryId(long historyId) {
+        this.historyId = historyId;
     }
 
     public String getName() {
@@ -124,6 +149,30 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     public Post getPost() {
         return post;
     }
@@ -159,12 +208,16 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "id=" + id +
+                "id='" + id + '\'' +
+                ", historyId=" + historyId +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", isActive=" + isActive +
                 ", post=" + post +
                 ", grade=" + grade +
                 ", department=" + department +

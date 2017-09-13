@@ -20,12 +20,10 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
     private static final Logger log = Logger.getLogger(EmployeeController.class);
-    private BaseCRUDController<Employee> baseCRUDController;
     private EmployeeService service;
 
     @Autowired
     public EmployeeController(EmployeeService employeeService) {
-        baseCRUDController = new BaseCRUDController<Employee>(employeeService);
         service = employeeService;
     }
 
@@ -79,8 +77,12 @@ public class EmployeeController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void addDepartment(@RequestBody Employee employee) {
-        baseCRUDController.add(employee);
+    void addEmployee(@RequestBody Employee employee) {
+        try {
+            service.add(employee);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -90,13 +92,22 @@ public class EmployeeController {
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Employee employee) {
-        baseCRUDController.update(employee);
+        try {
+            service.update(employee);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @RequestMapping(value = "/clear",method = RequestMethod.GET)
     List getWithNames() {
-        return baseCRUDController.getList("getEmployeeWithNames");
+        try {
+            return service.getAll("getEmployeeWithNames");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -105,7 +116,12 @@ public class EmployeeController {
      */
     @RequestMapping(method = RequestMethod.GET)
     List getAll() {
-        return baseCRUDController.getList("getEmployeeList");
+        try {
+            return service.getAll("getEmployeeList");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -115,7 +131,12 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Employee getEmployeeById(@PathVariable Long id) {
-        return baseCRUDController.getById(id, "getEmployeeById");
+        try {
+            return service.getById(id, "getEmployeeById");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -125,7 +146,11 @@ public class EmployeeController {
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        baseCRUDController.deleteById(id, "getEmployeeById");
+        try {
+            service.removeById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
