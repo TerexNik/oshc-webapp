@@ -1,6 +1,5 @@
 package ru.OSHC.controller;
 
-import javafx.geometry.Pos;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Post;
 import ru.OSHC.service.PostService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,11 +18,11 @@ import java.util.List;
 public class PostController {
 
     private static final Logger log = Logger.getLogger(PostController.class);
-    private BaseCRUDController<Post> baseCRUDController;
+    private PostService postService;
 
     @Autowired
     public PostController(PostService postService) {
-        baseCRUDController = new BaseCRUDController<Post>(postService);
+        this.postService = postService;
     }
 
     /**
@@ -32,7 +32,11 @@ public class PostController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addPost(@RequestBody Post post) {
-        baseCRUDController.add(post);
+        try {
+            postService.add(post);
+        } catch (SQLException e) {
+            log.error("addPost", e);
+        }
     }
 
     /**
@@ -42,7 +46,11 @@ public class PostController {
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Post post) {
-        baseCRUDController.update(post);
+        try {
+            postService.update(post);
+        } catch (SQLException e) {
+            log.error("updatePost", e);
+        }
     }
 
     /**
@@ -51,7 +59,12 @@ public class PostController {
      */
     @RequestMapping(method = RequestMethod.GET)
     List getAll() {
-        return baseCRUDController.getList("getPostsList");
+        try {
+            return postService.getAll("getPostsList");
+        } catch (SQLException e) {
+            log.error("getPostsList", e);
+            return null;
+        }
     }
 
     /**
@@ -61,7 +74,12 @@ public class PostController {
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Post getPostById(@PathVariable Long id) {
-        return baseCRUDController.getById(id, "getPostById");
+        try {
+            return postService.getById(id, "getPostById");
+        } catch (SQLException e) {
+            log.error("getPostById", e);
+            return null;
+        }
     }
 
     /**
@@ -71,6 +89,10 @@ public class PostController {
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        baseCRUDController.deleteById(id, "getPostById");
+        try {
+            postService.removeById(id, "getPostById");
+        } catch (SQLException e) {
+            log.error("removePostById", e);
+        }
     }
 }
