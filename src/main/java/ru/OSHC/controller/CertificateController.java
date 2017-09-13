@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Certificate;
 import ru.OSHC.service.CertificateService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,11 +17,11 @@ import java.util.List;
 @RequestMapping("/certificates")
 public class CertificateController {
     private static final Logger log = Logger.getLogger(CertificateController.class);
-    private BaseCRUDController<Certificate> baseCRUDController;
+    private CertificateService certificateService;
 
     @Autowired
     public CertificateController(CertificateService certificateService) {
-        baseCRUDController = new BaseCRUDController<Certificate>(certificateService);
+        this.certificateService = certificateService;
     }
 
     /**
@@ -30,7 +31,11 @@ public class CertificateController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addCertificate(@RequestBody Certificate certificate) {
-        baseCRUDController.add(certificate);
+        try {
+            certificateService.add(certificate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -40,7 +45,11 @@ public class CertificateController {
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Certificate certificate) {
-        baseCRUDController.update(certificate);
+        try {
+            certificateService.update(certificate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -49,7 +58,12 @@ public class CertificateController {
      */
     @RequestMapping(method = RequestMethod.GET)
     List getAll(){
-        return baseCRUDController.getList("getCertificateList");
+        try {
+            return certificateService.getAll("getCertificateList");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -59,7 +73,12 @@ public class CertificateController {
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Certificate getById(@PathVariable Long id) {
-        return baseCRUDController.getById(id, "getCertificateById");
+        try {
+            return certificateService.getById(id, "getCertificateById");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -69,6 +88,10 @@ public class CertificateController {
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        baseCRUDController.deleteById(id, "getCertificateById");
+        try {
+            certificateService.removeById(id, "getCertificateById");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

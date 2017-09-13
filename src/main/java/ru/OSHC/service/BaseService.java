@@ -15,7 +15,7 @@ public abstract class BaseService<T> extends SessionUtil implements BaseDAO<T> {
     public T getById(Long id, String namedQuerry) throws SQLException, NoResultException {
         openTransactionSession();
         Session session = getSession();
-        Query query =session.createNamedQuery(namedQuerry);
+        Query query = session.createNamedQuery(namedQuerry);
         query.setParameter("id",(long) id);
         T obj = (T) query.getSingleResult();
         closeTransactionSession();

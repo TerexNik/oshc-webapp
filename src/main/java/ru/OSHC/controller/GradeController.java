@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Grade;
 import ru.OSHC.service.GradeService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -17,11 +18,11 @@ import java.util.List;
 public class GradeController {
 
     private static final Logger log = Logger.getLogger(GradeController.class);
-    private BaseCRUDController<Grade> baseCRUDController;
+    private GradeService gradeService;
 
     @Autowired
     public GradeController(GradeService gradeService) {
-        baseCRUDController = new BaseCRUDController<Grade>(gradeService);
+        this.gradeService = gradeService;
     }
 
     /**
@@ -31,7 +32,11 @@ public class GradeController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addGrade(@RequestBody Grade grade) {
-        baseCRUDController.add(grade);
+        try {
+            gradeService.add(grade);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -41,7 +46,11 @@ public class GradeController {
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Grade grade) {
-        baseCRUDController.update(grade);
+        try {
+            gradeService.update(grade);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -50,7 +59,12 @@ public class GradeController {
      */
     @RequestMapping(method = RequestMethod.GET)
     List getAll() {
-        return baseCRUDController.getList("getGradesList");
+        try {
+            return gradeService.getAll("getGradesList");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -60,7 +74,12 @@ public class GradeController {
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     Grade getGradeById(@PathVariable Long id) {
-        return baseCRUDController.getById(id, "getGradeById");
+        try {
+            return gradeService.getById(id, "getGradeById");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -70,7 +89,11 @@ public class GradeController {
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable Long id) {
-        baseCRUDController.deleteById(id, "getGradeById");
+        try {
+            gradeService.removeById(id, "getGradeById");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
