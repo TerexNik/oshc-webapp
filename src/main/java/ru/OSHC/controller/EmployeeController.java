@@ -4,12 +4,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.OSHC.customExceptions.EmployeeSQLException;
+import ru.OSHC.customExceptions.EmployeeDoNotExistException;
 import ru.OSHC.entity.Department;
 import ru.OSHC.entity.Employee;
 import ru.OSHC.entity.Grade;
 import ru.OSHC.entity.Post;
 import ru.OSHC.service.EmployeeService;
 
+import javax.persistence.NoResultException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -135,8 +138,11 @@ public class EmployeeController {
         try {
             return service.getById(id, "getEmployeeById");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("SQLException in getEmployeeById", e);
             return null;
+        } catch (NoResultException e) {
+            log.error("NoResultException in getEmployeeById", e);
+            throw new EmployeeDoNotExistException(id.toString());
         }
     }
 
@@ -179,7 +185,4 @@ public class EmployeeController {
         }
     }
 
-    public EmployeeService getService() {
-        return service;
-    }
 }
