@@ -9,13 +9,8 @@ import java.util.Date;
 
 @NamedQueries({
         @NamedQuery(
-                name = "getEmployeeWithNames",
-                query = "select e.id, e.name, e.surname, e.birthDate, e.salary, d.name, p.name, g.name, c.certName " +
-                        "from  Employee as e " +
-                        "inner join Department d on e.department.id = d.id " +
-                        "inner join Post as p on e.post.id = p.id " +
-                        "inner join Grade as g on e.grade.id = g.id " +
-                        "inner join Certificate as c on e.certificate.id = c.id or e.certificate is null"
+                name = "getActiveEmployee",
+                query = "from Employee e where isActive = true"
         ),
         @NamedQuery(
                 name = "getEmployeeById",
@@ -23,9 +18,13 @@ import java.util.Date;
         ),
         @NamedQuery(
                 name = "getEmployeesDepartmentId",
-                query = "select e.name, e.surname, e.patronymic, e.salary, e.birthDate, e.post.name, e.grade.name" +
+                query = "select e.historyId, e.name, e.surname, e.patronymic, e.salary, e.birthDate" +
                         " from Employee e" +
-                        " where e.department.id = :id"
+                        " where e.department.id = :id and isActive = true"
+        ),
+        @NamedQuery(
+                name = "getInactiveEmployee",
+                query = "from Employee e where isActive = false"
         ),
         @NamedQuery(
                 name = "getEmployeeList",

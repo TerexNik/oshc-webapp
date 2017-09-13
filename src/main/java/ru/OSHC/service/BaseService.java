@@ -6,12 +6,13 @@ import ru.OSHC.dao.BaseDAO;
 import ru.OSHC.entity.Employee;
 import ru.OSHC.util.SessionUtil;
 
+import javax.persistence.NoResultException;
 import java.sql.SQLException;
 import java.util.List;
 
 public abstract class BaseService<T> extends SessionUtil implements BaseDAO<T> {
 
-    public T getById(Long id, String namedQuerry) throws SQLException {
+    public T getById(Long id, String namedQuerry) throws SQLException, NoResultException {
         openTransactionSession();
         Session session = getSession();
         Query query =session.createNamedQuery(namedQuerry);
@@ -57,5 +58,13 @@ public abstract class BaseService<T> extends SessionUtil implements BaseDAO<T> {
         Session session = getSession();
         session.persist(obj);
         closeTransactionSession();
+    }
+
+    protected boolean hasDuplicates(long id, String namedQuerry) throws SQLException {
+        try {
+            return getById(id, namedQuerry) != null;
+        } catch (NoResultException e) {
+            return false;
+        }
     }
 }
