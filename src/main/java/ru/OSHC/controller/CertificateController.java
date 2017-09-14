@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Certificate;
+import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.CertificateService;
 
+import javax.persistence.NoResultException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -72,12 +74,12 @@ public class CertificateController {
      * @return возвращает выбранный сертификат
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Certificate getById(@PathVariable Long id) {
+    Certificate getById(@PathVariable Long id) throws SQLException{
         try {
             return certificateService.getById(id, "getCertificateById");
-        } catch (SQLException e) {
-            log.error("getCertificateById", e);
-            return null;
+        } catch (NoResultException e) {
+            log.error("NoResultException in getEmployeeById", e);
+            throw new FileNotFoundException("Сертификата с данным идентификатором не существует");
         }
     }
 
@@ -87,11 +89,12 @@ public class CertificateController {
      */
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) {
+    void deleteById(@PathVariable Long id) throws SQLException {
         try {
             certificateService.removeById(id, "getCertificateById");
-        } catch (SQLException e) {
-            log.error("deleteCertificateById", e);
+        } catch (NoResultException e) {
+            log.error("NoResultException in getEmployeeById", e);
+            throw new FileNotFoundException("Сертификата с данным идентификатором не существует");
         }
     }
 }
