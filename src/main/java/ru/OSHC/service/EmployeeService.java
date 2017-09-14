@@ -24,7 +24,7 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         closeTransactionSession();
         List<Employee> employees = getAll("getActiveEmployee");
         for (Employee e : employees) {
-            if (e.getDepartment().getId() == fromId) {
+            if (e.getDepartment().equals(null) && e.getDepartment().getId() == fromId) {
                 e.setDepartment(to);
                 update(e);
             }
