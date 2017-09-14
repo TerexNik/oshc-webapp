@@ -3,10 +3,7 @@ package ru.OSHC.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResponseErrorHandler;
-import ru.OSHC.exception.CustomSQLException;
 import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.entity.Department;
 import ru.OSHC.entity.Employee;
@@ -16,7 +13,6 @@ import ru.OSHC.service.EmployeeService;
 
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 

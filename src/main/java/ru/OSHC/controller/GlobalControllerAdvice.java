@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.OSHC.exception.ApiError;
-import ru.OSHC.exception.CustomSQLException;
 import ru.OSHC.exception.FileNotFoundException;
 
 import javax.persistence.PersistenceException;
