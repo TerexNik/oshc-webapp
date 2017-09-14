@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Department;
+import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.DepartmentService;
 
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -33,12 +35,8 @@ public class DepartmentController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void addDepartment(@RequestBody Department department) {
-        try {
-            departmentService.add(department);
-        } catch (SQLException e) {
-            log.error("addDepartment", e);
-        }
+    void addDepartment(@RequestBody Department department) throws SQLException, PersistenceException {
+        departmentService.add(department);
     }
 
     /**
@@ -47,12 +45,8 @@ public class DepartmentController {
      */
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@RequestBody Department department) {
-        try {
-            departmentService.update(department);
-        } catch (SQLException e) {
-            log.error("updateDepartment", e);
-        }
+    void update(@RequestBody Department department) throws SQLException, PersistenceException {
+        departmentService.update(department);
     }
 
     /**
@@ -60,13 +54,8 @@ public class DepartmentController {
      * @return возвращает список всех департаментов
      */
     @RequestMapping(method = RequestMethod.GET)
-    List getAll(){
-        try {
-            return departmentService.getAll("getDepartmentList");
-        } catch (SQLException e) {
-            log.error("getDepartmentList", e);
-            return null;
-        }
+    List getAll() throws SQLException {
+        return departmentService.getAll("getDepartmentList");
     }
 
     /**
@@ -74,12 +63,12 @@ public class DepartmentController {
      * @return возвращает список поддепартаментов
      */
     @RequestMapping(value = "/get/{id}/sub-departments", method = RequestMethod.GET)
-    List getSubDepartments(@PathVariable long id) {
+    List getSubDepartments(@PathVariable long id) throws SQLException {
         try {
             return departmentService.getSubDepartments(id);
-        } catch (SQLException e) {
-            log.error("getSubDepartments", e);
-            return null;
+        } catch (NoResultException e) {
+            log.error("NoResultException in getSubDepartments", e);
+            throw new FileNotFoundException("Такого отдела не существует");
         }
     }
 
@@ -89,12 +78,12 @@ public class DepartmentController {
      * @return возвращает выбранный департамент
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Department getElementById(@PathVariable Long id) {
+    Department getDepartmentById(@PathVariable Long id) throws SQLException {
         try {
             return departmentService.getById(id, "getDepartmentById");
-        } catch (SQLException e) {
-            log.error("getDepartmentById", e);
-            return null;
+        } catch (NoResultException e) {
+            log.error("NoResultException in getDepartmentById", e);
+            throw new FileNotFoundException("Такого отдела не существует");
         }
     }
 
@@ -104,15 +93,12 @@ public class DepartmentController {
      */
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) {
+    void deleteById(@PathVariable Long id) throws SQLException {
         try {
             departmentService.deleteById(id);
-        } catch (SQLException e) {
-            log.error("deleteById", e);
-        } catch (ConstraintViolationException e) {
-            log.error("remove CVEx", e);
         } catch (NoResultException e) {
-            log.error("remove NREx", e);
+            log.error("NoResultException in deleteDepartmentById", e);
+            throw new FileNotFoundException("Такого отдела не существует");
         }
     }
 
