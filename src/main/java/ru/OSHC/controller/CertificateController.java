@@ -78,7 +78,7 @@ public class CertificateController {
         try {
             return certificateService.getById(id, "getCertificateById");
         } catch (NoResultException e) {
-            log.error("NoResultException in getEmployeeById", e);
+            log.error("NoResultException in getCertificateById", e);
             throw new FileNotFoundException("Сертификата с данным идентификатором не существует");
         }
     }
@@ -93,7 +93,7 @@ public class CertificateController {
         try {
             certificateService.removeById(id, "getCertificateById");
         } catch (NoResultException e) {
-            log.error("NoResultException in getEmployeeById", e);
+            log.error("NoResultException in getCertificateById", e);
             throw new FileNotFoundException("Сертификата с данным идентификатором не существует");
         }
     }
