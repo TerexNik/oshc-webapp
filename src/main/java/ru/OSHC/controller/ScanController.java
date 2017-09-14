@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.entity.Scan;
+import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.ScanService;
 
+import javax.persistence.NoResultException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -73,12 +75,12 @@ public class ScanController {
      * @return возвращает выбранный скан
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Scan getById(@PathVariable Long id) {
+    Scan getById(@PathVariable Long id) throws SQLException{
         try {
-            return scanService.getById(id);
-        } catch (SQLException e) {
-            log.error("getScanById", e);
-            return null;
+            return scanService.getById(id, "getScanById");
+        } catch (NoResultException e) {
+            log.error("NoResultException in getScanById", e);
+            throw new FileNotFoundException("Скана с данным идентификатором не существует");
         }
     }
 
@@ -88,11 +90,12 @@ public class ScanController {
      */
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) {
+    void deleteById(@PathVariable Long id) throws SQLException {
         try {
             scanService.removeById(id, "getScanById");
-        } catch (SQLException e) {
-            log.error("deleteScanById", e);
+        } catch (NoResultException e) {
+            log.error("NoResultException in getScanById", e);
+            throw new FileNotFoundException("Скана с данным идентификатором не существует");
         }
     }
 }
