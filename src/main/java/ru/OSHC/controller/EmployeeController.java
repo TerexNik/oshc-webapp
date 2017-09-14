@@ -37,7 +37,6 @@ public class EmployeeController implements ResponseErrorHandler {
      * @param from - id департамента из которого переводятся сотрудники
      * @param to - id департамента в котороый переводятся сотрудники
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/change-department/{from}-{to}", method = RequestMethod.PUT)
     void changeDepartment(@PathVariable long from, @PathVariable long to ) {
         try {
@@ -133,7 +132,7 @@ public class EmployeeController implements ResponseErrorHandler {
             throw new FileNotFoundException();
         } catch (NoResultException e) {
             log.error("NoResultException in getEmployeeById", e);
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("Такого работника не существует");
         }
     }
 
@@ -148,6 +147,9 @@ public class EmployeeController implements ResponseErrorHandler {
             service.removeById(id);
         } catch (SQLException e) {
             log.error("deleteEmployeeById", e);
+        } catch (NoResultException e) {
+            log.error("NoResultException in getEmployeeById", e);
+            throw new FileNotFoundException("Такого работника не существует");
         }
     }
 
