@@ -8,6 +8,7 @@ import ru.OSHC.entity.Department;
 import ru.OSHC.entity.Employee;
 import ru.OSHC.entity.Grade;
 import ru.OSHC.entity.Post;
+import ru.OSHC.exception.FileNotFoundException;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -21,10 +22,12 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         openTransactionSession();
         Session session = getSession();
         Department to = session.get(Department.class, toId);
+        if (to == null)
+            throw new FileNotFoundException("Вы пытаетесь перевести работников в несуществующий департамент");
         closeTransactionSession();
         List<Employee> employees = getAll("getActiveEmployee");
         for (Employee e : employees) {
-            if (e.getDepartment().equals(null) && e.getDepartment().getId() == fromId) {
+            if (e.getDepartment().getId() == fromId) {
                 e.setDepartment(to);
                 update(e);
             }

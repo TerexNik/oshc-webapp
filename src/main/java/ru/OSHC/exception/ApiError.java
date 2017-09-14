@@ -4,32 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 public class ApiError {
-    @JsonIgnore
-    private Exception exception;
     private String name;
+    private String message;
     private String describe;
 
-    public ApiError(Exception exception) {
-        this.exception = exception;
-    }
-
-    public ApiError(Exception exception, String name) {
-        this.exception = exception;
+    public ApiError(String name) {
         this.name = name;
     }
 
-    public ApiError(Exception exception, String name, String describe) {
-        this.exception = exception;
+    public ApiError(String name, String message) {
         this.name = name;
+        this.message = message;
+    }
+
+    public ApiError(String name, String message, String describe) {
+        this.name = name;
+        this.message = message;
         this.describe = describe;
-    }
-
-    public Exception getException() {
-        return exception;
-    }
-
-    public void setException(Exception exception) {
-        this.exception = exception;
     }
 
     public String getName() {
@@ -38,6 +29,14 @@ public class ApiError {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getDescribe() {
@@ -51,8 +50,8 @@ public class ApiError {
     @Override
     public String toString() {
         return "ApiError{" +
-                "exception=" + exception +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", message='" + message + '\'' +
                 ", describe='" + describe + '\'' +
                 '}';
     }
