@@ -10,6 +10,7 @@ import ru.OSHC.entity.Grade;
 import ru.OSHC.entity.Post;
 import ru.OSHC.exception.FileNotFoundException;
 
+import javax.persistence.PersistenceException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -85,13 +86,13 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         add(employee);
     }
 
-    public void migrateToNewGrade(long id, Grade newGrade) throws SQLException {
+    public void migrateToNewGrade(long id, Grade newGrade) throws SQLException, PersistenceException {
         Employee employee = setEndDateForEmployee(id);
         employee.setGrade(newGrade);
         add(employee);
     }
 
-    public void migrateToNewPost(long id, Post post) throws SQLException {
+    public void migrateToNewPost(long id, Post post) throws SQLException, PersistenceException {
         Employee employee = setEndDateForEmployee(id);
         employee.setPost(post);
         add(employee);
@@ -102,6 +103,7 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         employeeHist.setActive(false);
         employeeHist.setEndDate(new Date(System.currentTimeMillis()));
         super.update(employeeHist);
+        employeeHist.setEndDate(null);
         return employeeHist;
     }
 

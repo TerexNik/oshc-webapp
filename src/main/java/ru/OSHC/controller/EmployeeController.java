@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResponseErrorHandler;
+import ru.OSHC.exception.CustomSQLException;
 import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.entity.Department;
 import ru.OSHC.entity.Employee;
@@ -14,6 +15,7 @@ import ru.OSHC.entity.Post;
 import ru.OSHC.service.EmployeeService;
 
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/employees")
-public class EmployeeController implements ResponseErrorHandler {
+public class EmployeeController {
     private static final Logger log = Logger.getLogger(EmployeeController.class);
     private EmployeeService service;
 
@@ -37,13 +39,9 @@ public class EmployeeController implements ResponseErrorHandler {
      * @param from - id департамента из которого переводятся сотрудники
      * @param to - id департамента в котороый переводятся сотрудники
      */
-    @RequestMapping(value = "/change-department/{from}-{to}", method = RequestMethod.PUT)
-    void changeDepartment(@PathVariable long from, @PathVariable long to ) {
-        try {
-            service.migrateFromDepAtoDepB(from, to);
-        } catch (SQLException e) {
-            log.error("change-department", e);
-        }
+    @RequestMapping(value = "/change/department/{from}-{to}", method = RequestMethod.PUT)
+    void changeDepartment(@PathVariable long from, @PathVariable long to ) throws SQLException, PersistenceException {
+        service.migrateFromDepAtoDepB(from, to);
     }
 
     /**
@@ -51,13 +49,13 @@ public class EmployeeController implements ResponseErrorHandler {
      * @param newGrade - новый грейд
      * @param id - historyId работника у которого требуется изменить грейд
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/changeGrade/{id}", method = RequestMethod.PUT)
-    void changeGrade(@PathVariable long id, @RequestBody Grade newGrade) {
+    @RequestMapping(value = "/change/grade/{id}", method = RequestMethod.PUT)
+    void changeGrade(@PathVariable long id, @RequestBody Grade newGrade) throws SQLException, PersistenceException {
         try {
             service.migrateToNewGrade(id, newGrade);
-        } catch (SQLException e) {
-            log.error("changeGrade", e);
+        } catch (NoResultException e) {
+            log.error("NoResultException in migrateToNewGrade", e);
+            throw new FileNotFoundException("Такого работника не существует");
         }
     }
 
@@ -66,13 +64,13 @@ public class EmployeeController implements ResponseErrorHandler {
      * @param newPost - новый пост
      * @param id - historyId работника у которого требуется изменить пост
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/changePost", method = RequestMethod.PUT)
-    void changePost(@PathVariable long id, @RequestBody Post newPost) {
+    @RequestMapping(value = "/change/post/{id}", method = RequestMethod.PUT)
+    void changePost(@PathVariable long id, @RequestBody Post newPost) throws SQLException, PersistenceException {
         try {
             service.migrateToNewPost(id, newPost);
-        } catch (SQLException e) {
-            log.error("changePost", e);
+        } catch (NoResultException e) {
+            log.error("NoResultException in migrateToNewPost", e);
+            throw new FileNotFoundException("Такого работника не существует");
         }
     }
 
@@ -82,12 +80,8 @@ public class EmployeeController implements ResponseErrorHandler {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void addEmployee(@RequestBody Employee employee) {
-        try {
-            service.add(employee);
-        } catch (SQLException e) {
-            log.error("addEmployee", e);
-        }
+    void addEmployee(@RequestBody Employee employee) throws SQLException {
+        service.add(employee);
     }
 
     /**
@@ -96,12 +90,8 @@ public class EmployeeController implements ResponseErrorHandler {
      */
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@RequestBody Employee employee) {
-        try {
-            service.update(employee);
-        } catch (SQLException e) {
-            log.error("updateEmployee", e);
-        }
+    void update(@RequestBody Employee employee) throws SQLException {
+        service.update(employee);
     }
 
     /**
@@ -109,13 +99,8 @@ public class EmployeeController implements ResponseErrorHandler {
      * @return возвращает список всех работников
      */
     @RequestMapping(method = RequestMethod.GET)
-    List getAll() {
-        try {
+    public List getAll() throws SQLException {
             return service.getAll("getEmployeeList");
-        } catch (SQLException e) {
-            log.error("getEmployeeList", e);
-            return null;
-        }
     }
 
     /**
@@ -124,12 +109,9 @@ public class EmployeeController implements ResponseErrorHandler {
      * @return возвращает выбранного работника
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Employee getEmployeeById(@PathVariable Long id) {
+    Employee getEmployeeById(@PathVariable Long id) throws SQLException {
         try {
             return service.getById(id, "getEmployeeById");
-        } catch (SQLException e) {
-            log.error("SQLException in getEmployeeById", e);
-            throw new FileNotFoundException();
         } catch (NoResultException e) {
             log.error("NoResultException in getEmployeeById", e);
             throw new FileNotFoundException("Такого работника не существует");
@@ -142,13 +124,11 @@ public class EmployeeController implements ResponseErrorHandler {
      */
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) {
+    void deleteById(@PathVariable Long id) throws SQLException {
         try {
             service.removeById(id);
-        } catch (SQLException e) {
-            log.error("deleteEmployeeById", e);
         } catch (NoResultException e) {
-            log.error("NoResultException in getEmployeeById", e);
+            log.error("NoResultException in deleteEmployeeById", e);
             throw new FileNotFoundException("Такого работника не существует");
         }
     }
@@ -159,30 +139,22 @@ public class EmployeeController implements ResponseErrorHandler {
      * @return возвращает список всех работников данного департамента
      */
     @RequestMapping(value = "/dep/{id}", method = RequestMethod.GET)
-    List getEmployeesFromDepartment(@PathVariable Long id) {
+    List getEmployeesFromDepartment(@PathVariable Long id) throws SQLException {
         try {
             return service.getEmployeesFromDepartment(id);
-        } catch (SQLException e) {
-            log.error("getEmployeesFromDepartment", e);
-            return null;
+        } catch (NoResultException e) {
+            log.error("NoResultException in getEmployeesFromDepartment", e);
+            throw new FileNotFoundException("Такого департамента не существует");
         }
     }
 
     @RequestMapping(value = "/get/part/{letters}" , method = RequestMethod.GET)
-    List getEmployeesNamesByLetters(@PathVariable String letters) {
+    List getEmployeesNamesByLetters(@PathVariable String letters) throws SQLException {
         try {
             return service.getEmployeeByLetters(letters, getAll());
-        } catch (Exception e) {
-            log.error("getEmployeesNamesByChars", e);
-            return  null;
+        } catch (NoResultException e) {
+            log.error("NoResultException in getEmployeeByLetters", e);
+            throw new FileNotFoundException("Работников не найденно");
         }
-    }
-
-    public boolean hasError(ClientHttpResponse clientHttpResponse) throws IOException {
-        return false;
-    }
-
-    public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
-
     }
 }
