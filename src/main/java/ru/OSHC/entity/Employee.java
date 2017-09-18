@@ -27,6 +27,12 @@ import java.util.Date;
                 query = "from Employee e where isActive = false"
         ),
         @NamedQuery(
+                name = "getEmployeeHistory",
+                query = "select e.name, e.surname, e.patronymic, e.salary, e.department.name, e.post.name, e.grade.name," +
+                        " e.certificate.certName, e.certificate.company, e.startDate, e.endDate" +
+                        " from Employee e where e.historyId = :id"
+        ),
+        @NamedQuery(
                 name = "getEmployeeList",
                 query = "from Employee e"
         )

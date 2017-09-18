@@ -45,7 +45,7 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         return employees;
     }
 
-    public void clearDepHistory(long id) throws SQLException{
+    void clearDepHistory(long id) throws SQLException{
         List<Employee> employees = getInactive();
         openTransactionSession();
         Session session = getSession();
@@ -58,7 +58,7 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         closeTransactionSession();
     }
 
-    public List getInactive() {
+    private List getInactive() {
         openTransactionSession();
         Session session = getSession();
         Query query = session.createNamedQuery("getInactiveEmployee");
@@ -98,7 +98,7 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
         add(employee);
     }
 
-    public Employee setEndDateForEmployee(long id) throws SQLException {
+    private Employee setEndDateForEmployee(long id) throws SQLException {
         Employee employeeHist = getById(id, "getEmployeeById");
         employeeHist.setActive(false);
         employeeHist.setEndDate(new Date(System.currentTimeMillis()));
@@ -127,5 +127,15 @@ public class EmployeeService extends BaseService<Employee> implements EmployeeDA
             }
         }
         return result;
+    }
+
+    public List getEmployeeHistory(long id) {
+        openTransactionSession();
+        Session session = getSession();
+        Query query = session.createNamedQuery("getEmployeeHistory");
+        query.setParameter("id", id);
+        List employees = query.list();
+        closeTransactionSession();
+        return employees;
     }
 }
