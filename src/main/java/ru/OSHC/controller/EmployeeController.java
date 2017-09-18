@@ -31,6 +31,16 @@ public class EmployeeController {
     }
 
     /**
+     * Добавление нового работника.
+     * @param employee - работник
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void addEmployee(@RequestBody Employee employee) throws SQLException {
+        service.add(employee);
+    }
+
+    /**
      * Перемещение всех работников одного департамента в другой
      * @param from - id департамента из которого переводятся сотрудники
      * @param to - id департамента в котороый переводятся сотрудники
@@ -71,16 +81,6 @@ public class EmployeeController {
     }
 
     /**
-     * Добавление нового работника.
-     * @param employee - работник
-     */
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void addEmployee(@RequestBody Employee employee) throws SQLException {
-        service.add(employee);
-    }
-
-    /**
      * Изменение данных о работнике
      * @param employee - работник
      */
@@ -88,6 +88,21 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Employee employee) throws SQLException {
         service.update(employee);
+    }
+
+    /**
+     * Удаление работника с выбранным идентификатором {@link Employee#id}
+     * @param id - идентификатор работника
+     */
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteById(@PathVariable Long id) throws SQLException {
+        try {
+            service.removeById(id);
+        } catch (NoResultException e) {
+            log.error("NoResultException in deleteEmployeeById", e);
+            throw new FileNotFoundException("Такого работника не существует");
+        }
     }
 
     /**
@@ -115,21 +130,6 @@ public class EmployeeController {
     }
 
     /**
-     * Удаление работника с выбранным идентификатором {@link Employee#id}
-     * @param id - идентификатор работника
-     */
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) throws SQLException {
-        try {
-            service.removeById(id);
-        } catch (NoResultException e) {
-            log.error("NoResultException in deleteEmployeeById", e);
-            throw new FileNotFoundException("Такого работника не существует");
-        }
-    }
-
-    /**
      * Получение списка работников в департаменте с идентификатором {@link Department#id}
      * @param id - идентификатор департамента
      * @return возвращает список всех работников данного департамента
@@ -148,6 +148,16 @@ public class EmployeeController {
     List getEmployeesNamesByLetters(@PathVariable String letters) throws SQLException {
         try {
             return service.getEmployeeByLetters(letters, getAll());
+        } catch (NoResultException e) {
+            log.error("NoResultException in getEmployeeByLetters", e);
+            throw new FileNotFoundException("Работников не найденно");
+        }
+    }
+
+    @RequestMapping(value = "/get/history/{id}" , method = RequestMethod.GET)
+    List getEmployeesHistory(@PathVariable long id) throws SQLException {
+        try {
+            return service.getEmployeeHistory(id);
         } catch (NoResultException e) {
             log.error("NoResultException in getEmployeeByLetters", e);
             throw new FileNotFoundException("Работников не найденно");
