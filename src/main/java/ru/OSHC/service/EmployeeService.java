@@ -20,19 +20,24 @@ import java.util.List;
 public class EmployeeService extends BaseService<Employee> implements EmployeeDAO {
 
     public void migrateFromDepAtoDepB(long fromId, long toId) throws SQLException {
-        openTransactionSession();
-        Session session = getSession();
-        Department to = session.get(Department.class, toId);
+        Department to = getDepartmentById(toId);
+        List<Employee> employees = getAll("getActiveEmployee");
         if (to == null)
             throw new FileNotFoundException("Вы пытаетесь перевести работников в несуществующий департамент");
-        closeTransactionSession();
-        List<Employee> employees = getAll("getActiveEmployee");
         for (Employee e : employees) {
             if (e.getDepartment().getId() == fromId) {
                 e.setDepartment(to);
                 update(e);
             }
         }
+    }
+
+    public Department getDepartmentById(long id) {
+        openTransactionSession();
+        Session session = getSession();
+        Department department = session.get(Department.class, id);
+        closeTransactionSession();
+        return department;
     }
 
     public List getEmployeesFromDepartment(Long id) throws SQLException {
