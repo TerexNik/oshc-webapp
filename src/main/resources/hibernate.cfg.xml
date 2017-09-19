@@ -7,16 +7,17 @@
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@89.108.84.144:1521:BPM8</property>
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-        <property name="default_schema">test_c</property>
-        <property name="hibernate.connection.username">test_c</property>
-        <property name="hibernate.connection.password">test_c</property>
+        <property name="default_schema">test01</property>
+        <property name="hibernate.connection.username">test01</property>
+        <property name="hibernate.connection.password">test01</property>
         <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="ru.OSHC.entity.Employee"/>
-        <mapping class="ru.OSHC.entity.Department"/>
-        <mapping class="ru.OSHC.entity.Certificate"/>
-        <mapping class="ru.OSHC.entity.Post"/>
-        <mapping class="ru.OSHC.entity.Grade"/>
-        <mapping class="ru.OSHC.entity.Scan"/>
+        <mapping class="ru.OSHC.model.entity.Employee"/>
+        <mapping class="ru.OSHC.model.entity.Department"/>
+        <mapping class="ru.OSHC.model.entity.Certificate"/>
+        <mapping class="ru.OSHC.model.entity.Post"/>
+        <mapping class="ru.OSHC.model.entity.Grade"/>
+        <mapping class="ru.OSHC.model.entity.Scan"/>
     </session-factory>
 </hibernate-configuration>

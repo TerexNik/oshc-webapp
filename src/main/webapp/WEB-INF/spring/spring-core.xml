@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:flow="http://www.springframework.org/schema/webflow-config"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd">
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
     <mvc:annotation-driven/>
     <mvc:view-controller path="/" view-name="hello-page"/>
     <context:component-scan base-package="ru.OSHC"/>
@@ -13,4 +13,21 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <security:http pattern="/securityNone" security="none"/>
+    <security:http use-expressions="true">
+        <security:intercept-url pattern="/**" method="GET" access="ROLE_USER"/>
+        <security:intercept-url pattern="/**" method="POST" access="ROLE_ADMIN"/>
+        <security:intercept-url pattern="/**" method="PUT" access="ROLE_ADMIN"/>
+        <security:intercept-url pattern="/**" method="DELETE" access="ROLE_ADMIN"/>
+        <security:http-basic/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="Admin" password="Slozniy" authorities="ROLE_ADMIN" />
+                <security:user name="User" password="1234" authorities="ROLE_USER" />
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
 </beans>
