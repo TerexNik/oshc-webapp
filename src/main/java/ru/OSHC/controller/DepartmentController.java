@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.OSHC.annotation.Loggable;
 import ru.OSHC.entity.Department;
 import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.DepartmentService;
@@ -33,6 +34,7 @@ public class DepartmentController {
      * Добавление нового департамента.
      * @param department - департамент
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addDepartment(@RequestBody Department department) throws SQLException, PersistenceException {
@@ -43,6 +45,7 @@ public class DepartmentController {
      * Изменение данных о департаменте
      * @param department - департамент
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Department department) throws SQLException, PersistenceException {
@@ -53,6 +56,7 @@ public class DepartmentController {
      * Получение списка департаментов
      * @return возвращает список всех департаментов
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.GET)
     List getAll() throws SQLException {
         return departmentService.getAll("getDepartmentList");
@@ -62,14 +66,10 @@ public class DepartmentController {
      * Получение списка поддепартаментов
      * @return возвращает список поддепартаментов
      */
+    @Loggable
     @RequestMapping(value = "/get/{id}/sub-departments", method = RequestMethod.GET)
-    List getSubDepartments(@PathVariable long id) throws SQLException {
-        try {
-            return departmentService.getSubDepartments(id);
-        } catch (NoResultException e) {
-            log.error("NoResultException in getSubDepartments", e);
-            throw new FileNotFoundException("Такого отдела не существует");
-        }
+    List getSubDepartments(@PathVariable long id) throws SQLException, NoResultException {
+        return departmentService.getSubDepartments(id);
     }
 
     /**
@@ -77,29 +77,21 @@ public class DepartmentController {
      * @param id - идентификатор департамента
      * @return возвращает выбранный департамент
      */
+    @Loggable
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Department getDepartmentById(@PathVariable Long id) throws SQLException {
-        try {
-            return departmentService.getById(id, "getDepartmentById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in getDepartmentById", e);
-            throw new FileNotFoundException("Такого отдела не существует");
-        }
+    Department getDepartmentById(@PathVariable Long id) throws SQLException, NoResultException {
+        return departmentService.getById(id, "getDepartmentById");
     }
 
     /**
      * Удаление департамента с выбранным идентификатором {@link Department#id}
      * @param id - идентификатор департамента
      */
+    @Loggable
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) throws SQLException {
-        try {
-            departmentService.deleteById(id);
-        } catch (NoResultException e) {
-            log.error("NoResultException in deleteDepartmentById", e);
-            throw new FileNotFoundException("Такого отдела не существует");
-        }
+    void deleteById(@PathVariable Long id) throws SQLException, NoResultException {
+        departmentService.deleteById(id);
     }
 
 }

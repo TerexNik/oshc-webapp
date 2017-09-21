@@ -5,82 +5,52 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.OSHC.annotation.Loggable;
 import ru.OSHC.service.BaseService;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class BaseCRUDController<T> {
-    private static final Logger log = Logger.getLogger(BaseCRUDController.class);
-
     private BaseService<T> service;
 
     public BaseCRUDController(BaseService<T> service) {
         this.service = service;
     }
 
-    T getById(Long id, String namedHQL) {
-        try {
-            return service.getById(id, namedHQL);
-        } catch (SQLException e) {
-            log.error("getById", e);
-            return null;
-        }
+    @Loggable
+    T getById(Long id, String namedHQL) throws SQLException {
+        return service.getById(id, namedHQL);
     }
 
-    void deleteById(Long id, String namedHQL) {
-        try {
-            service.removeById(id, namedHQL);
-        } catch (SQLException e) {
-            log.error("deleteById", e);
-            e.printStackTrace();
-        }
+    @Loggable
+    void deleteById(Long id, String namedHQL) throws SQLException {
+        service.removeById(id, namedHQL);
     }
 
-    List getList(String namedHQL) {
-        try {
-            return service.getAll(namedHQL);
-        } catch (SQLException e) {
-            log.error("getList", e);
-            return null;
-        }
+    @Loggable
+    List getList(String namedHQL) throws SQLException {
+        return service.getAll(namedHQL);
     }
 
+    @Loggable
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "Success add")
-    void add(@RequestBody T obj) {
-        try {
-            service.add(obj);
-        } catch (SQLException e) {
-                    log.error("add", e);
-        }
+    void add(@RequestBody T obj) throws SQLException {
+        service.add(obj);
     }
 
+    @Loggable
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "Success delete")
-    void remove(@RequestBody T obj) {
-        try {
+    void remove(@RequestBody T obj) throws SQLException, ConstraintViolationException {
             service.remove(obj);
-        } catch (SQLException e) {
-            log.error("remove SQLEx", e);
-        } catch (ConstraintViolationException e) {
-            log.error("remove CVEx", e);
-        }
     }
 
+    @Loggable
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@RequestBody T obj) {
-        try {
-            service.update(obj);
-        } catch (SQLException e) {
-            log.error("update", e);
-        }
-    }
-
-
-
-    void setService(BaseService<T> service) {
-        this.service = service;
+    void update(@RequestBody T obj) throws SQLException {
+        service.update(obj);
     }
 }
