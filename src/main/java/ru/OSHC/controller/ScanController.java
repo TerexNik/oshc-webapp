@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.OSHC.annotation.Loggable;
 import ru.OSHC.entity.Scan;
 import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.ScanService;
@@ -31,42 +32,32 @@ public class ScanController {
      * Добавление нового скана.
      * @param scan - скана
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void addScan(@RequestBody Scan scan) {
-        try {
-            scanService.add(scan);
-        } catch (SQLException e) {
-            log.error("addScan", e);
-        }
+    void addScan(@RequestBody Scan scan) throws SQLException {
+        scanService.add(scan);
     }
 
     /**
      * Изменение данных о скане
      * @param scan - скан
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@RequestBody Scan scan) {
-        try {
-            scanService.update(scan);
-        } catch (SQLException e) {
-            log.error("updateScan", e);
-        }
+    void update(@RequestBody Scan scan) throws SQLException {
+        scanService.update(scan);
     }
 
     /**
      * Получение списка сканов
      * @return возвращает список всех сканов
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.GET)
-    List getAll(){
-        try {
-            return scanService.getAll("getScansList");
-        } catch (SQLException e) {
-            log.error("getScansList", e);
-            return null;
-        }
+    List getAll() throws SQLException {
+        return scanService.getAll("getScansList");
     }
 
     /**
@@ -74,28 +65,20 @@ public class ScanController {
      * @param id - идентификатор скана
      * @return возвращает выбранный скан
      */
+    @Loggable
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Scan getById(@PathVariable Long id) throws SQLException{
-        try {
-            return scanService.getById(id, "getScanById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in getScanById", e);
-            throw new FileNotFoundException("Скана с данным идентификатором не существует");
-        }
+    Scan getById(@PathVariable Long id) throws SQLException, NoResultException {
+        return scanService.getById(id, "getScanById");
     }
 
     /**
      * Удаление скана с выбранным идентификатором {@link Scan#id}
      * @param id - идентификатор скана
      */
+    @Loggable
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) throws SQLException {
-        try {
-            scanService.removeById(id, "getScanById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in getScanById", e);
-            throw new FileNotFoundException("Скана с данным идентификатором не существует");
-        }
+    void deleteById(@PathVariable Long id) throws SQLException, NoResultException {
+        scanService.removeById(id, "getScanById");
     }
 }

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.OSHC.annotation.Loggable;
 import ru.OSHC.entity.Certificate;
 import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.CertificateService;
@@ -30,42 +31,32 @@ public class CertificateController {
      * Добавление нового сертификата.
      * @param certificate - сертификат
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void addCertificate(@RequestBody Certificate certificate) {
-        try {
-            certificateService.add(certificate);
-        } catch (SQLException e) {
-            log.error("addCertificate", e);
-        }
+    void addCertificate(@RequestBody Certificate certificate) throws SQLException {
+        certificateService.add(certificate);
     }
 
     /**
      * Изменение данных о сертификате
      * @param certificate - сертификат
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@RequestBody Certificate certificate) {
-        try {
-            certificateService.update(certificate);
-        } catch (SQLException e) {
-            log.error("updateCertificate", e);
-        }
+    void update(@RequestBody Certificate certificate) throws SQLException {
+        certificateService.update(certificate);
     }
 
     /**
      * Получение списка сертификатов
      * @return возвращает список всех сертификатов
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.GET)
-    List getAll(){
-        try {
-            return certificateService.getAll("getCertificateList");
-        } catch (SQLException e) {
-            log.error("getCertificateList", e);
-            return null;
-        }
+    List getAll() throws SQLException {
+        return certificateService.getAll("getCertificateList");
     }
 
     /**
@@ -73,28 +64,20 @@ public class CertificateController {
      * @param id - идентификатор сертификата
      * @return возвращает выбранный сертификат
      */
+    @Loggable
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Certificate getById(@PathVariable Long id) throws SQLException{
-        try {
-            return certificateService.getById(id, "getCertificateById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in getCertificateById", e);
-            throw new FileNotFoundException("Сертификата с данным идентификатором не существует");
-        }
+    Certificate getById(@PathVariable Long id) throws SQLException, NoResultException{
+        return certificateService.getById(id, "getCertificateById");
     }
 
     /**
      * Удаление сертификата с выбранным идентификатором {@link Certificate#id}
      * @param id - идентификатор сертификата
      */
+    @Loggable
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) throws SQLException {
-        try {
-            certificateService.removeById(id, "getCertificateById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in getCertificateById", e);
-            throw new FileNotFoundException("Сертификата с данным идентификатором не существует");
-        }
+    void deleteById(@PathVariable Long id) throws SQLException, NoResultException {
+        certificateService.removeById(id, "getCertificateById");
     }
 }

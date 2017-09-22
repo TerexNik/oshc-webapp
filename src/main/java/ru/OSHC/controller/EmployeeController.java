@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.OSHC.annotation.Loggable;
 import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.entity.Department;
 import ru.OSHC.entity.Employee;
@@ -34,6 +35,7 @@ public class EmployeeController {
      * Добавление нового работника.
      * @param employee - работник
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addEmployee(@RequestBody Employee employee) throws SQLException {
@@ -45,8 +47,9 @@ public class EmployeeController {
      * @param from - id департамента из которого переводятся сотрудники
      * @param to - id департамента в котороый переводятся сотрудники
      */
+    @Loggable
     @RequestMapping(value = "/change/department/{from}-{to}", method = RequestMethod.PUT)
-    void changeDepartment(@PathVariable long from, @PathVariable long to ) throws SQLException, PersistenceException {
+    void changeDepartment(@PathVariable long from, @PathVariable long to ) throws SQLException, PersistenceException, NoResultException {
         service.migrateFromDepAtoDepB(from, to);
     }
 
@@ -55,14 +58,10 @@ public class EmployeeController {
      * @param newGrade - новый грейд
      * @param id - historyId работника у которого требуется изменить грейд
      */
+    @Loggable
     @RequestMapping(value = "/change/grade/{id}", method = RequestMethod.PUT)
-    void changeGrade(@PathVariable long id, @RequestBody Grade newGrade) throws SQLException, PersistenceException {
-        try {
-            service.migrateToNewGrade(id, newGrade);
-        } catch (NoResultException e) {
-            log.error("NoResultException in migrateToNewGrade", e);
-            throw new FileNotFoundException("Такого работника не существует");
-        }
+    void changeGrade(@PathVariable long id, @RequestBody Grade newGrade) throws SQLException, PersistenceException, NoResultException {
+        service.migrateToNewGrade(id, newGrade);
     }
 
     /**
@@ -70,20 +69,17 @@ public class EmployeeController {
      * @param newPost - новый пост
      * @param id - historyId работника у которого требуется изменить пост
      */
+    @Loggable
     @RequestMapping(value = "/change/post/{id}", method = RequestMethod.PUT)
     void changePost(@PathVariable long id, @RequestBody Post newPost) throws SQLException, PersistenceException {
-        try {
-            service.migrateToNewPost(id, newPost);
-        } catch (NoResultException e) {
-            log.error("NoResultException in migrateToNewPost", e);
-            throw new FileNotFoundException("Такого работника не существует");
-        }
+        service.migrateToNewPost(id, newPost);
     }
 
     /**
      * Изменение данных о работнике
      * @param employee - работник
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Employee employee) throws SQLException {
@@ -94,24 +90,21 @@ public class EmployeeController {
      * Удаление работника с выбранным идентификатором {@link Employee#id}
      * @param id - идентификатор работника
      */
+    @Loggable
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) throws SQLException {
-        try {
-            service.removeById(id);
-        } catch (NoResultException e) {
-            log.error("NoResultException in deleteEmployeeById", e);
-            throw new FileNotFoundException("Такого работника не существует");
-        }
+    void deleteById(@PathVariable Long id) throws SQLException, NoResultException {
+        service.removeById(id);
     }
 
     /**
      * Получение списка записей о работниках
      * @return возвращает список всех работников
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.GET)
     public List getAll() throws SQLException {
-            return service.getAll("getEmployeeList");
+        return service.getAll("getEmployeeList");
     }
 
     /**
@@ -119,14 +112,10 @@ public class EmployeeController {
      * @param id - идентификатор работника
      * @return возвращает выбранного работника
      */
+    @Loggable
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Employee getEmployeeById(@PathVariable Long id) throws SQLException {
-        try {
-            return service.getById(id, "getEmployeeById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in getEmployeeById", e);
-            throw new FileNotFoundException("Такого работника не существует");
-        }
+    Employee getEmployeeById(@PathVariable Long id) throws SQLException, NoResultException {
+        return service.getById(id, "getEmployeeById");
     }
 
     /**
@@ -134,33 +123,21 @@ public class EmployeeController {
      * @param id - идентификатор департамента
      * @return возвращает список всех работников данного департамента
      */
+    @Loggable
     @RequestMapping(value = "/dep/{id}", method = RequestMethod.GET)
-    List getEmployeesFromDepartment(@PathVariable Long id) throws SQLException {
-        try {
-            return service.getEmployeesFromDepartment(id);
-        } catch (NoResultException e) {
-            log.error("NoResultException in getEmployeesFromDepartment", e);
-            throw new FileNotFoundException("Такого департамента не существует");
-        }
+    List getEmployeesFromDepartment(@PathVariable Long id) throws SQLException, NoResultException {
+        return service.getEmployeesFromDepartment(id);
     }
 
+    @Loggable
     @RequestMapping(value = "/get/part/{letters}" , method = RequestMethod.GET)
-    List getEmployeesNamesByLetters(@PathVariable String letters) throws SQLException {
-        try {
-            return service.getEmployeeByLetters(letters, getAll());
-        } catch (NoResultException e) {
-            log.error("NoResultException in getEmployeeByLetters", e);
-            throw new FileNotFoundException("Работников не найденно");
-        }
+    List getEmployeesNamesByLetters(@PathVariable String letters) throws SQLException, NoResultException {
+        return service.getEmployeeByLetters(letters, getAll());
     }
 
+    @Loggable
     @RequestMapping(value = "/get/history/{id}" , method = RequestMethod.GET)
-    List getEmployeesHistory(@PathVariable long id) throws SQLException {
-        try {
-            return service.getEmployeeHistory(id);
-        } catch (NoResultException e) {
-            log.error("NoResultException in getEmployeeByLetters", e);
-            throw new FileNotFoundException("Работников не найденно");
-        }
+    List getEmployeesHistory(@PathVariable long id) throws SQLException, NoResultException {
+        return service.getEmployeeHistory(id);
     }
 }

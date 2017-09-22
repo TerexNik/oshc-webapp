@@ -1,14 +1,11 @@
 package ru.OSHC.controller;
 
 import org.apache.log4j.Logger;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.OSHC.annotation.Loggable;
 import ru.OSHC.entity.Department;
-import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.DepartmentService;
 
 import javax.persistence.NoResultException;

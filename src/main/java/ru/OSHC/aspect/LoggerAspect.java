@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component
 @Aspect
 public class LoggerAspect {
     private static final Logger log = Logger.getLogger(LoggerAspect.class);
@@ -17,11 +16,14 @@ public class LoggerAspect {
     @Pointcut("@annotation(ru.OSHC.annotation.Loggable)")
     public void loggableMethod(){}
 
-    @Pointcut("execution(* ru.OSHC.advice..*(..))")
+    @Pointcut("execution(* ru.OSHC.advice.GlobalControllerAdvice.*(..))")
     public void exceptionMethod(){}
 
-    @Pointcut("execution(* ru.OSHC.controller..*(..))")
+    @Pointcut("execution(* ru.OSHC.controller.*.*(..))")
     public void controllerMethod(){}
+
+    @Pointcut("execution(* ru.OSHC.service.*.*(..))")
+    public void serviceMethod(){}
 
     @Around("loggableMethod() && exceptionMethod()")
     public Object logException(ProceedingJoinPoint thisJoinPoint) throws Throwable {
@@ -38,13 +40,18 @@ public class LoggerAspect {
     }
 
     @Around("loggableMethod() && controllerMethod()")
-    public Object logServiceCall(ProceedingJoinPoint thisJoinPoint) throws Throwable {
+    public Object logServiceCall(ProceedingJoinPoint thisJoinPoint){
         String methodName = thisJoinPoint.getSignature().getName();
         Object[] methodArgs = thisJoinPoint.getArgs();
 
         log.debug("Call method " + methodName + " with args " + Arrays.toString(methodArgs));
 
-        Object result = thisJoinPoint.proceed();
+        Object result = null;
+        try {
+            result = thisJoinPoint.proceed();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
 
         log.debug("Method " + methodName + " returns " + result);
 

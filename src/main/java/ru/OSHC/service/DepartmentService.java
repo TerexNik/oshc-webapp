@@ -3,6 +3,7 @@ package ru.OSHC.service;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.OSHC.annotation.Loggable;
 import ru.OSHC.entity.Department;
 
 import javax.persistence.NoResultException;

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.OSHC.annotation.Loggable;
 import ru.OSHC.entity.Grade;
 import ru.OSHC.exception.FileNotFoundException;
 import ru.OSHC.service.GradeService;
@@ -32,11 +33,11 @@ public class GradeController {
      *
      * @param grade - грейд
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void addGrade(@RequestBody Grade grade) throws SQLException {
         gradeService.add(grade);
-//        log.info("Grade was added");
     }
 
     /**
@@ -44,11 +45,11 @@ public class GradeController {
      *
      * @param grade - грейд
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@RequestBody Grade grade) throws SQLException {
         gradeService.update(grade);
-//        log.info("Grade was updated");
     }
 
     /**
@@ -56,6 +57,7 @@ public class GradeController {
      *
      * @return возвращает список всех грейдов
      */
+    @Loggable
     @RequestMapping(method = RequestMethod.GET)
     List getAll() throws SQLException {
         return gradeService.getAll("getGradesList");
@@ -67,14 +69,10 @@ public class GradeController {
      * @param id - идентификатор грейда
      * @return возвращает выбранный грейд
      */
+    @Loggable
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    Grade getGradeById(@PathVariable Long id) throws SQLException {
-        try {
-            return gradeService.getById(id, "getGradeById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in getGradeById", e);
-            throw new FileNotFoundException("Такого грейда не существует");
-        }
+    Grade getGradeById(@PathVariable Long id) throws SQLException, NoResultException {
+        return gradeService.getById(id, "getGradeById");
     }
 
     /**
@@ -82,15 +80,11 @@ public class GradeController {
      *
      * @param id - идентификатор грейда
      */
+    @Loggable
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteById(@PathVariable Long id) throws SQLException {
-        try {
-            gradeService.removeById(id, "getGradeById");
-        } catch (NoResultException e) {
-            log.error("NoResultException in removeGradeById", e);
-            throw new FileNotFoundException("Такого грейда не существует");
-        }
+    void deleteById(@PathVariable Long id) throws SQLException, NoResultException {
+        gradeService.removeById(id, "getGradeById");
     }
 
 }
