@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.OSHC.annotation.Loggable;
 import ru.OSHC.entity.Department;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.persistence.NoResultException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,13 +15,8 @@ import java.util.List;
 
 @Service
 public class DepartmentService extends BaseService<Department> {
-
-    private final EmployeeService employeeService;
-
     @Autowired
-    public DepartmentService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
+    private EmployeeService employeeService;
 
     public List getSubDepartments(long id) throws SQLException {
         List<Department> departments = getAll("getDepartmentList");
