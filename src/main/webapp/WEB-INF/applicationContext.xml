@@ -16,11 +16,24 @@
         </wss:service>
     </wss:binding>
 
+    <wss:binding url="/soap/certificate">
+        <wss:service>
+            <ws:service bean="#certificateWs"/>
+        </wss:service>
+    </wss:binding>
+
+
     <!-- Web service methods -->
     <bean id="departmentWs" class="ru.OSHC.webService.DepartmentWebService">
         <property name="departmentService" ref="depService"/>
     </bean>
 
+    <bean id="certificateWs" class="ru.OSHC.webService.CertificateWebService">
+        <property name="certificateService" ref="certificateService"/>
+    </bean>
+
     <bean id="depService" class="ru.OSHC.service.DepartmentService"/>
+
+    <bean id="certificateService" class="ru.OSHC.service.CertificateService"/>
 
 </beans>

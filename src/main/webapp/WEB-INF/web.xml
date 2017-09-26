@@ -30,6 +30,11 @@
         <servlet-name>jaxws-servlet</servlet-name>
         <url-pattern>/soap</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <url-pattern>/soap/certificate</url-pattern>
+    </servlet-mapping>
     
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
