@@ -28,17 +28,17 @@
 
     <servlet-mapping>
         <servlet-name>jaxws-servlet</servlet-name>
-        <url-pattern>/soap</url-pattern>
+        <url-pattern>/soap/departments</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>jaxws-servlet</servlet-name>
-        <url-pattern>/soap/certificate</url-pattern>
+        <url-pattern>/soap/certificates</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>jaxws-servlet</servlet-name>
-        <url-pattern>/soap/grade</url-pattern>
+        <url-pattern>/soap/grades</url-pattern>
     </servlet-mapping>
 
 

@@ -10,19 +10,19 @@
         http://jax-ws.dev.java.net/spring/servlet.xsd"
 >
 
-    <wss:binding url="/soap">
+    <wss:binding url="/soap/departments">
         <wss:service>
             <ws:service bean="#departmentWs"/>
         </wss:service>
     </wss:binding>
 
-    <wss:binding url="/soap/certificate">
+    <wss:binding url="/soap/certificates">
         <wss:service>
             <ws:service bean="#certificateWs"/>
         </wss:service>
     </wss:binding>
 
-    <wss:binding url="/soap/grade">
+    <wss:binding url="/soap/grades">
         <wss:service>
             <ws:service bean="#gradeWs"/>
         </wss:service>
@@ -43,9 +43,7 @@
     </bean>
 
     <bean id="depService" class="ru.OSHC.service.DepartmentService"/>
-
     <bean id="certificateService" class="ru.OSHC.service.CertificateService"/>
-
     <bean id="gradeService" class="ru.OSHC.service.GradeService"/>
 
 </beans>
