@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Контроллер грейда
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/grades")
 public class GradeController {

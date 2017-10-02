@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * Контроллер работника
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {

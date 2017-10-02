@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Контроллер сертификата
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/certificates")
 public class CertificateController {

@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Контроллер департамента
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {

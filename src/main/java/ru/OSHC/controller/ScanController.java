@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Контроллер скана
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/scans")
 public class ScanController {

@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Контроллер поста
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/posts")
 public class PostController {
